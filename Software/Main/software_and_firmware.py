@@ -29,14 +29,18 @@ import array
 
 # Declarations
 flag = 1
-ignoreloopcount = 0
-loopcount = 0
+debugLoops = 20
+mainLoops = 200
+ignoreLoopCount = 0
+loopCount = 0
 newAccID = 0
-oldAccID = 10
+oldAccID = debugLoops
 oldTime = current_milli_time()
 newTime = current_milli_time()
 hashcount = 0
 checkSum = 0
+errorFlag = 0
+
 # Declare column headers
 cols = ['ID', 'x0', 'y0', 'z0', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2', 'x3', 'y3', 'z3']
 fullDF = pd.DataFrame(columns=cols)
@@ -58,10 +62,11 @@ while flag == 1:
         else:
             time.sleep(3)
 
-# Ignore first 10 readings
+# Ignore first 20 readings
 print("Ignoring starting readings")
 startTime = current_milli_time()
-while (ignoreloopcount < 10):
+while (ignoreLoopCount < debugLoops):
+    loopTime = current_milli_time()
     message = ser.readline()
     byteMessage = array.array('B', message)
     while hashcount < (len(byteMessage)-2): # Produce checksum from received data
@@ -78,22 +83,23 @@ while (ignoreloopcount < 10):
         #print(chr(checkSum))
         print('WHERE')
         ser.write("\r\nR") # Send request for resend of data to Arduino
-    ignoreloopcount += 1
+    ignoreLoopCount += 1
     checkSum = 0
     hashcount = 0
+    print(current_milli_time()-loopTime)
 print('Debug loop duration (ms)')
 print((current_milli_time()-startTime)/10)
 
 print("MAIN LOOP")
 startTime = current_milli_time()
 # Read (Main Loop)
-while (loopcount < 200):
-    loopTime = current_milli_time()
+while (loopCount < mainLoops):
+
     message = ser.readline()
     #print(message)
     newAccID = int(message.split(',')[0])
 
-    if (1):
+    if (newAccID == oldAccID):
         byteMessage = array.array('B', message)
         while hashcount < (len(byteMessage)-2): # Produce checksum from received data
                 checkSum ^= int(byteMessage[hashcount])
@@ -108,30 +114,32 @@ while (loopcount < 200):
             #print(messagepd)
             ser.write("\r\nA")
             fullDF = fullDF.append(messagepd, ignore_index = True)
-            loopcount += 1
+            loopCount += 1
             oldAccID = newAccID + 1
         else: # Checksums do not match
             print('Not Correct')
             print(message)
             ser.write("\r\nR") # Send request for resend of data to Arduino
     else :
+        print('ID MISMATCH, ENDING MAIN LOOP')
         print('oldAccID = ')
         print(oldAccID)
         print('newAccID = ')
         print(newAccID)
-        loopcount = 50
+        loopCount = 50
     checkSum = 0
     hashcount = 0
-    print(current_milli_time()-loopTime)
-print('Main loop duration (ms)')
-print((current_milli_time()-startTime)/200)
 
-print(fullDF)
+if (errorFlag = 0):
+    print('Main loop average duration (ms)')
+    print((current_milli_time()-startTime)/mainLoops)
+
+    print(fullDF)
 
 
-# Remove unneeded data
-#fullDF = fullDF.drop(fullDF.columns[14], axis=1)
-#fullDF = fullDF.drop(fullDF.columns[13], axis=1)
-fullDF = fullDF.drop(fullDF.columns[0], axis=1)
-# Save cleaned raw data to csv file
-fullDF.to_csv('recorded_data.csv', sep=',')
+    # Remove unneeded data
+    #fullDF = fullDF.drop(fullDF.columns[14], axis=1)
+    #fullDF = fullDF.drop(fullDF.columns[13], axis=1)
+    fullDF = fullDF.drop(fullDF.columns[0], axis=1)
+    # Save cleaned raw data to csv file
+    fullDF.to_csv('recorded_data.csv', sep=',')
