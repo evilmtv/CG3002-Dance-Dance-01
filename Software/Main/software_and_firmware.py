@@ -17,6 +17,7 @@ print (str(datetime.now()))
 import time
 current_milli_time = lambda: int(round(time.time() * 1000))
 #startTime = current_milli_time()
+timetotalsegment = 0
 
 import pandas as pd
 import numpy as np
@@ -56,8 +57,9 @@ while flag == 1:
             ser.write("\r\nA")
         time.sleep(1)
 
-# Ignore first 20 readings
+# Ignore first 10 readings
 print("Ignoring starting readings")
+startTime = current_milli_time()
 while (ignoreloopcount < 10):
     message = ser.readline()
     byteMessage = array.array('B', message)
@@ -78,14 +80,18 @@ while (ignoreloopcount < 10):
     ignoreloopcount += 1
     checkSum = 0
     hashcount = 0
+print('Debug loop duration (ms)')
+print((current_milli_time()-startTime)/10)
 
 print("MAIN LOOP")
+startTime = current_milli_time()
 # Read (Main Loop)
 while (loopcount < 200):
+    loopTime = current_milli_time()
     message = ser.readline()
     #print(message)
     newAccID = int(message.split(',')[0])
-    
+
     if (newAccID == oldAccID):
         byteMessage = array.array('B', message)
         while hashcount < (len(byteMessage)-2): # Produce checksum from received data
@@ -95,7 +101,7 @@ while (loopcount < 200):
             #print('Correct')
             #print(message)
             messagenp = np.fromstring(message[0:(len(message)-2)], dtype=int, sep=",")
-            
+
             #print(messagenp)
             messagepd = pd.DataFrame(data=messagenp.reshape(-1, (len(messagenp))), index=['1'], columns=cols)
             #print(messagepd)
@@ -115,7 +121,9 @@ while (loopcount < 200):
         loopcount = 50
     checkSum = 0
     hashcount = 0
-
+    print(current_milli_time()-loopTime)
+print('Main loop duration (ms)')
+print((current_milli_time()-startTime)/200)
 
 print(fullDF)
 
