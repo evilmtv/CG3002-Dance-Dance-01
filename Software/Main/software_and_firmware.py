@@ -46,7 +46,7 @@ cols = ['ID', 'x0', 'y0', 'z0', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2', 'x3', 'y3', 
 fullDF = pd.DataFrame(columns=cols)
 
 # Initialize serial
-ser = serial.Serial("/dev/ttyACM4", baudrate=115200, timeout=3.0)
+ser = serial.Serial("/dev/ttyACM5", baudrate=115200, timeout=3.0)
 print("Raspberry Pi Ready")
 
 # Perform handshake
@@ -130,7 +130,7 @@ while (loopCount < mainLoops):
     checkSum = 0
     hashcount = 0
 
-if (errorFlag = 0):
+if (errorFlag == 0):
     print('Main loop average duration (ms)')
     print((current_milli_time()-startTime)/mainLoops)
 
