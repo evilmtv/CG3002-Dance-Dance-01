@@ -42,7 +42,7 @@ cols = ['ID', 'x0', 'y0', 'z0', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2', 'x3', 'y3', 
 fullDF = pd.DataFrame(columns=cols)
 
 # Initialize serial
-ser = serial.Serial("/dev/ttyACM0", baudrate=9600, timeout=3.0)
+ser = serial.Serial("/dev/ttyACM4", baudrate=115200, timeout=3.0)
 print("Raspberry Pi Ready")
 
 # Perform handshake
@@ -55,7 +55,8 @@ while flag == 1:
             print("Begin reading:")
             flag = 0
             ser.write("\r\nA")
-        time.sleep(1)
+        else:
+            time.sleep(3)
 
 # Ignore first 10 readings
 print("Ignoring starting readings")
@@ -92,7 +93,7 @@ while (loopcount < 200):
     #print(message)
     newAccID = int(message.split(',')[0])
 
-    if (newAccID == oldAccID):
+    if (1):
         byteMessage = array.array('B', message)
         while hashcount < (len(byteMessage)-2): # Produce checksum from received data
                 checkSum ^= int(byteMessage[hashcount])
