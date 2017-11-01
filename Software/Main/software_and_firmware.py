@@ -73,22 +73,19 @@ while (ignoreLoopCount < debugLoops):
         checkSum ^= int(byteMessage[hashcount])
         hashcount += 1
     if chr(checkSum) == message[len(message)-2]: #Check if checksums matches
-        print('Correct')
-        print(message)
+        print('Checksum matches. Message: \"', message, ""\"")
         ser.write("\r\nA")
         # Store data into buffer
     else: # Checksums do not match
-        print('Not Correct')
-        print(message)
-        #print(chr(checkSum))
-        print('WHERE')
+        print('Checksums do not match!')
+        print("Message: \"", message, "\"")
+        print("Checksum: \"", chr(checkSum), "\"")
         ser.write("\r\nR") # Send request for resend of data to Arduino
     ignoreLoopCount += 1
     checkSum = 0
     hashcount = 0
-    print(current_milli_time()-loopTime)
-print('Debug loop duration (ms)')
-print((current_milli_time()-startTime)/10)
+    print("Loop ", ignoreLoopCount, " took: " current_milli_time()-loopTime)
+print("Average debug loop duration (ms): ", ((current_milli_time()-startTime)/10))
 
 print("MAIN LOOP")
 startTime = current_milli_time()
@@ -117,22 +114,22 @@ while (loopCount < mainLoops):
             loopCount += 1
             oldAccID = newAccID + 1
         else: # Checksums do not match
-            print('Not Correct')
-            print(message)
+            print('Checksums do not match!')
+            print("Message: \"", message, "\"")
+            print("Checksum: \"", chr(checkSum), "\"")
             ser.write("\r\nR") # Send request for resend of data to Arduino
     else :
-        print('ID MISMATCH, ENDING MAIN LOOP')
-        print('oldAccID = ')
-        print(oldAccID)
-        print('newAccID = ')
-        print(newAccID)
-        loopCount = 50
+        print('ID MISMATCH')
+        print('oldAccID =', oldAccID)
+        print('newAccID =', newAccID)
+        print("ENDING PROGRAM")
+        errorFlag = 1
+        loopCount = mainLoops
     checkSum = 0
     hashcount = 0
 
 if (errorFlag == 0):
-    print('Main loop average duration (ms)')
-    print((current_milli_time()-startTime)/mainLoops)
+    print('Average main loop duration (ms):', ((current_milli_time()-startTime)/mainLoops))
 
     print(fullDF)
 
@@ -140,6 +137,6 @@ if (errorFlag == 0):
     # Remove unneeded data
     #fullDF = fullDF.drop(fullDF.columns[14], axis=1)
     #fullDF = fullDF.drop(fullDF.columns[13], axis=1)
-    fullDF = fullDF.drop(fullDF.columns[0], axis=1)
+    fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
     # Save cleaned raw data to csv file
     fullDF.to_csv('recorded_data.csv', sep=',')
