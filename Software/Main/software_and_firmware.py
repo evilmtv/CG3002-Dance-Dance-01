@@ -30,7 +30,7 @@ import array
 # Declarations
 flag = 1
 debugLoops = 20
-mainLoops = 200
+mainLoops = 3000
 ignoreLoopCount = 0
 loopCount = 0
 newAccID = 0
@@ -46,7 +46,7 @@ cols = ['ID', 'x0', 'y0', 'z0', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2', 'x3', 'y3', 
 fullDF = pd.DataFrame(columns=cols)
 
 # Initialize serial
-ser = serial.Serial("/dev/ttyACM5", baudrate=115200, timeout=3.0)
+ser = serial.Serial("/dev/ttyACM1", baudrate=115200, timeout=3.0)
 print("Raspberry Pi Ready")
 
 # Perform handshake
@@ -73,18 +73,18 @@ while (ignoreLoopCount < debugLoops):
         checkSum ^= int(byteMessage[hashcount])
         hashcount += 1
     if chr(checkSum) == message[len(message)-2]: #Check if checksums matches
-        print('Checksum matches. Message: \"', message, ""\"")
+        print('Checksum matches. Message:', message)
         ser.write("\r\nA")
         # Store data into buffer
     else: # Checksums do not match
         print('Checksums do not match!')
-        print("Message: \"", message, "\"")
+        print("Message:", message)
         print("Checksum: \"", chr(checkSum), "\"")
         ser.write("\r\nR") # Send request for resend of data to Arduino
     ignoreLoopCount += 1
     checkSum = 0
     hashcount = 0
-    print("Loop ", ignoreLoopCount, " took: " current_milli_time()-loopTime)
+    print("Loop ", ignoreLoopCount, "took:", current_milli_time()-loopTime)
 print("Average debug loop duration (ms): ", ((current_milli_time()-startTime)/10))
 
 print("MAIN LOOP")
@@ -115,16 +115,23 @@ while (loopCount < mainLoops):
             oldAccID = newAccID + 1
         else: # Checksums do not match
             print('Checksums do not match!')
-            print("Message: \"", message, "\"")
-            print("Checksum: \"", chr(checkSum), "\"")
-            ser.write("\r\nR") # Send request for resend of data to Arduino
+            print("Message:", message)
+            print("Checksum:", chr(checkSum))
+            ser.write("\r\nR") # Send request for resend of data from Arduino
     else :
+        print(' ')
         print('ID MISMATCH')
+        print('At Loop:', loopCount)
+        print('Message:', message)
         print('oldAccID =', oldAccID)
         print('newAccID =', newAccID)
-        print("ENDING PROGRAM")
-        errorFlag = 1
-        loopCount = mainLoops
+        #print("ENDING PROGRAM")
+        #errorFlag = 1
+        #loopCount = mainLoops
+        print('Resetting values to continue')
+        oldAccID = newAccID
+        ser.write("\r\nR") # Send request for resend of data from Arduino
+        
     checkSum = 0
     hashcount = 0
 
