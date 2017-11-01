@@ -91,16 +91,17 @@ print("MAIN LOOP")
 startTime = current_milli_time()
 # Read (Main Loop)
 while (loopCount < mainLoops):
+
     message = ser.readline()
     #print(message)
     newAccID = int(message.split(',')[0])
 
-    if (1):
+    if (newAccID == oldAccID):
         byteMessage = array.array('B', message)
         while hashcount < (len(byteMessage)-2): # Produce checksum from received data
                 checkSum ^= int(byteMessage[hashcount])
                 hashcount += 1
-        if (1):#chr(checkSum) == message[len(message)-2]: # Check if checksums matches
+        if chr(checkSum) == message[len(message)-2]: # Check if checksums matches
             ser.write("\r\nA")
             #print('Correct')
             #print(message)
