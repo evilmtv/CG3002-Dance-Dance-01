@@ -1,0 +1,1125 @@
+2017-11-01 19:10:04.031683
+ 
+Nearest Neighbors
+ 
+In the 0 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[64  0  0  0  0  0]
+ [ 0 57  0  2  0  0]
+ [ 0  1 58  2  0  0]
+ [ 0  0  0 51  2  0]
+ [ 0  0  0  0 70  0]
+ [ 0  0  0  0  0 53]]
+This fold took 0.248015 seconds
+ 
+In the 1 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[65  0  0  0  0  1]
+ [ 0 54  0  1  1  0]
+ [ 0  1 50  0  0  0]
+ [ 0  1  0 70  3  0]
+ [ 0  0  0  0 52  0]
+ [ 0  0  0  0  0 61]]
+This fold took 0.252074 seconds
+ 
+In the 2 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[48  0  0  0  0  0]
+ [ 0 71  1  0  1  0]
+ [ 0  0 54  0  0  0]
+ [ 0  2  0 62  2  0]
+ [ 0  0  0  0 58  0]
+ [ 0  0  0  0  0 61]]
+This fold took 0.247263 seconds
+ 
+In the 3 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[47  0  0  0  0  0]
+ [ 0 68  0  2  0  0]
+ [ 0  1 52  2  0  0]
+ [ 0  2  0 52  1  0]
+ [ 0  0  0  0 64  0]
+ [ 0  0  0  0  0 69]]
+This fold took 0.248032 seconds
+ 
+In the 4 fold, the classification accuracy is 0.986111
+And the confusion matrix is: 
+[[67  0  0  0  0  0]
+ [ 0 57  0  1  0  0]
+ [ 0  1 59  1  0  0]
+ [ 0  0  0 37  1  0]
+ [ 0  0  0  0 71  0]
+ [ 1  0  0  0  0 64]]
+This fold took 0.248033 seconds
+ 
+In the 5 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[66  0  0  0  0  0]
+ [ 0 60  0  1  0  0]
+ [ 0  3 61  0  0  0]
+ [ 0  1  0 59  2  0]
+ [ 0  0  0  0 52  0]
+ [ 0  0  0  0  0 55]]
+This fold took 0.248117 seconds
+ 
+In the 6 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[58  0  0  0  0  0]
+ [ 0 56  0  1  0  0]
+ [ 0  2 65  0  0  0]
+ [ 0  1  0 64  3  0]
+ [ 0  0  0  0 48  0]
+ [ 0  0  0  0  0 62]]
+This fold took 0.248058 seconds
+ 
+In the 7 fold, the classification accuracy is 0.972222
+And the confusion matrix is: 
+[[54  0  0  0  0  0]
+ [ 0 64  0  3  0  0]
+ [ 0  2 64  0  0  0]
+ [ 0  1  0 56  4  0]
+ [ 0  0  0  0 56  0]
+ [ 0  0  0  0  0 56]]
+This fold took 0.248036 seconds
+ 
+In the 8 fold, the classification accuracy is 0.994444
+And the confusion matrix is: 
+[[63  0  0  0  0  0]
+ [ 0 50  0  0  0  0]
+ [ 0  1 57  0  0  0]
+ [ 0  1  0 66  0  0]
+ [ 0  0  0  0 66  0]
+ [ 0  0  0  0  0 56]]
+This fold took 0.248047 seconds
+ 
+In the 9 fold, the classification accuracy is 0.975000
+And the confusion matrix is: 
+[[67  0  0  0  0  0]
+ [ 0 48  0  0  1  0]
+ [ 0  1 61  1  0  0]
+ [ 0  1  0 50  5  0]
+ [ 0  0  0  0 63  0]
+ [ 0  0  0  0  0 62]]
+This fold took 0.248019 seconds
+ 
+ 
+Random Forest
+ 
+In the 0 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[64  0  1  0  0  0]
+ [ 0 57  0  0  0  0]
+ [ 1  0 56  0  0  0]
+ [ 0  3  0 61  0  0]
+ [ 0  0  0  0 65  0]
+ [ 1  0  0  0  0 51]]
+This fold took 0.340062 seconds
+ 
+In the 1 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[68  0  0  0  0  0]
+ [ 0 48  0  2  0  0]
+ [ 0  1 53  0  0  0]
+ [ 0  3  0 47  0  0]
+ [ 0  0  0  0 61  0]
+ [ 0  0  0  0  0 77]]
+This fold took 0.340070 seconds
+ 
+In the 2 fold, the classification accuracy is 0.988889
+And the confusion matrix is: 
+[[61  0  0  0  0  0]
+ [ 0 56  1  1  0  0]
+ [ 0  0 55  0  0  0]
+ [ 0  2  0 62  0  0]
+ [ 0  0  0  0 62  0]
+ [ 0  0  0  0  0 60]]
+This fold took 0.340046 seconds
+ 
+In the 3 fold, the classification accuracy is 0.986111
+And the confusion matrix is: 
+[[69  0  0  0  0  0]
+ [ 0 57  0  1  0  0]
+ [ 0  0 55  0  0  0]
+ [ 0  4  0 56  0  0]
+ [ 0  0  0  0 64  0]
+ [ 0  0  0  0  0 54]]
+This fold took 0.339993 seconds
+ 
+In the 4 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[58  0  0  0  0  0]
+ [ 0 70  1  3  0  0]
+ [ 0  1 56  0  0  0]
+ [ 0  2  0 56  0  0]
+ [ 0  0  0  0 58  0]
+ [ 0  0  0  0  0 55]]
+This fold took 0.356104 seconds
+ 
+In the 5 fold, the classification accuracy is 0.988889
+And the confusion matrix is: 
+[[50  0  0  0  0  0]
+ [ 0 75  0  0  0  0]
+ [ 0  1 67  0  0  0]
+ [ 0  2  1 55  0  0]
+ [ 0  0  0  0 55  0]
+ [ 0  0  0  0  0 54]]
+This fold took 0.340257 seconds
+ 
+In the 6 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[53  0  0  0  0  0]
+ [ 0 53  0  3  0  0]
+ [ 0  1 64  0  0  0]
+ [ 0  4  0 56  0  0]
+ [ 0  0  0  0 56  0]
+ [ 0  0  0  0  0 70]]
+This fold took 0.340046 seconds
+ 
+In the 7 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[55  0  0  0  0  0]
+ [ 0 60  0  1  0  0]
+ [ 0  1 67  0  0  0]
+ [ 0  3  0 57  0  0]
+ [ 0  0  0  1 53  0]
+ [ 0  0  0  0  0 62]]
+This fold took 0.340045 seconds
+ 
+In the 8 fold, the classification accuracy is 0.988889
+And the confusion matrix is: 
+[[63  0  0  0  0  1]
+ [ 0 54  1  1  0  0]
+ [ 0  0 57  0  0  0]
+ [ 0  1  0 64  0  0]
+ [ 0  0  0  0 63  0]
+ [ 0  0  0  0  0 55]]
+This fold took 0.340047 seconds
+ 
+In the 9 fold, the classification accuracy is 0.994444
+And the confusion matrix is: 
+[[57  0  0  0  0  0]
+ [ 0 55  0  0  0  0]
+ [ 0  0 64  0  0  0]
+ [ 0  2  0 59  0  0]
+ [ 0  0  0  0 62  0]
+ [ 0  0  0  0  0 61]]
+This fold took 0.340046 seconds
+ 
+ 
+Results:
+ 
+Nearest Neighbors took 2.483694 seconds
+with an average accuracy of 98.083333%
+ 
+Random Forest took 3.424667 seconds
+with an average accuracy of 98.555556%
+ 
+ 
+Correct result:
+[4 5 0 1 3 2]
+KNN predicted result:
+[4 5 0 1 3 2]
+RF predicted result:
+[4 5 0 1 3 2]
+The whole code took 7.104639 seconds
+2017-11-01 19:15:14.587601
+ 
+Nearest Neighbors
+ 
+In the 0 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[64  0  0  0  0  0]
+ [ 0 56  0  1  1  0]
+ [ 0  1 64  0  0  0]
+ [ 0  0  0 54  3  0]
+ [ 0  0  0  0 52  0]
+ [ 1  0  0  0  0 63]]
+This fold took 0.223174 seconds
+ 
+In the 1 fold, the classification accuracy is 0.986111
+And the confusion matrix is: 
+[[54  0  0  0  0  0]
+ [ 0 59  0  1  0  0]
+ [ 0  1 57  1  0  0]
+ [ 0  0  0 61  2  0]
+ [ 0  0  0  0 66  0]
+ [ 0  0  0  0  0 58]]
+This fold took 0.225178 seconds
+ 
+In the 2 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[65  0  0  0  0  0]
+ [ 0 55  0  3  0  0]
+ [ 0  1 58  0  0  0]
+ [ 0  2  0 60  2  0]
+ [ 0  0  0  0 63  0]
+ [ 0  0  0  0  0 51]]
+This fold took 0.224172 seconds
+ 
+In the 3 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[52  0  0  0  0  0]
+ [ 0 58  1  1  0  0]
+ [ 0  1 62  0  0  0]
+ [ 0  4  0 50  1  0]
+ [ 0  0  0  0 53  0]
+ [ 0  0  0  0  0 77]]
+This fold took 0.223174 seconds
+ 
+In the 4 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[68  0  0  0  0  0]
+ [ 0 58  0  2  0  0]
+ [ 0  0 52  4  0  0]
+ [ 0  1  0 53  1  0]
+ [ 0  0  0  0 67  0]
+ [ 0  0  0  0  0 54]]
+This fold took 0.222173 seconds
+ 
+In the 5 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[55  0  0  0  0  1]
+ [ 0 59  0  0  2  0]
+ [ 0  1 60  0  0  0]
+ [ 0  0  0 55  3  0]
+ [ 0  0  0  0 63  0]
+ [ 0  0  0  0  0 61]]
+This fold took 0.223159 seconds
+ 
+In the 6 fold, the classification accuracy is 0.986111
+And the confusion matrix is: 
+[[55  0  0  0  0  0]
+ [ 0 63  0  1  0  0]
+ [ 0  0 60  0  0  0]
+ [ 0  2  0 54  2  0]
+ [ 0  0  0  0 63  0]
+ [ 0  0  0  0  0 60]]
+This fold took 0.222188 seconds
+ 
+In the 7 fold, the classification accuracy is 0.986111
+And the confusion matrix is: 
+[[59  0  0  0  0  0]
+ [ 0 61  0  0  0  0]
+ [ 0  2 65  0  0  0]
+ [ 0  0  0 64  3  0]
+ [ 0  0  0  0 53  0]
+ [ 0  0  0  0  0 53]]
+This fold took 0.223173 seconds
+ 
+In the 8 fold, the classification accuracy is 0.972222
+And the confusion matrix is: 
+[[62  0  0  0  0  0]
+ [ 0 64  0  1  1  0]
+ [ 0  2 56  1  0  0]
+ [ 0  2  0 56  3  0]
+ [ 0  0  0  0 62  0]
+ [ 0  0  0  0  0 50]]
+This fold took 0.224178 seconds
+ 
+In the 9 fold, the classification accuracy is 0.972222
+And the confusion matrix is: 
+[[65  0  0  0  0  0]
+ [ 0 52  0  0  0  0]
+ [ 0  5 46  0  0  0]
+ [ 0  2  0 58  2  0]
+ [ 0  0  0  0 58  0]
+ [ 1  0  0  0  0 71]]
+This fold took 0.225157 seconds
+ 
+ 
+Random Forest
+ 
+In the 0 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[61  0  0  0  0  0]
+ [ 0 68  0  0  0  0]
+ [ 0  1 59  0  0  0]
+ [ 0  7  0 56  0  0]
+ [ 0  0  0  0 62  0]
+ [ 0  0  0  0  0 46]]
+This fold took 0.320263 seconds
+ 
+In the 1 fold, the classification accuracy is 0.994444
+And the confusion matrix is: 
+[[61  0  0  0  0  0]
+ [ 0 72  0  0  0  0]
+ [ 0  0 54  0  0  0]
+ [ 0  1  0 55  0  0]
+ [ 0  0  0  0 58  0]
+ [ 1  0  0  0  0 58]]
+This fold took 0.318246 seconds
+ 
+In the 2 fold, the classification accuracy is 0.991667
+And the confusion matrix is: 
+[[64  0  0  0  0  0]
+ [ 0 55  0  0  0  0]
+ [ 0  0 60  0  0  0]
+ [ 0  3  0 46  0  0]
+ [ 0  0  0  0 71  0]
+ [ 0  0  0  0  0 61]]
+This fold took 0.319248 seconds
+ 
+In the 3 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[51  0  0  0  0  0]
+ [ 0 56  0  2  0  0]
+ [ 0  1 63  0  0  0]
+ [ 0  3  0 55  0  0]
+ [ 0  0  0  0 60  0]
+ [ 0  0  0  0  0 69]]
+This fold took 0.321232 seconds
+ 
+In the 4 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[57  0  0  0  0  0]
+ [ 0 47  0  2  0  0]
+ [ 0  1 64  1  0  0]
+ [ 0  2  0 69  0  0]
+ [ 0  0  0  0 55  0]
+ [ 0  0  0  0  0 62]]
+This fold took 0.319265 seconds
+ 
+In the 5 fold, the classification accuracy is 0.986111
+And the confusion matrix is: 
+[[59  0  0  0  0  0]
+ [ 0 57  0  2  0  0]
+ [ 0  1 66  0  0  0]
+ [ 0  2  0 65  0  0]
+ [ 0  0  0  0 57  0]
+ [ 0  0  0  0  0 51]]
+This fold took 0.318230 seconds
+ 
+In the 6 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[56  0  0  0  0  0]
+ [ 0 60  0  1  0  0]
+ [ 0  0 58  0  0  0]
+ [ 0  5  0 58  0  0]
+ [ 0  0  0  0 61  0]
+ [ 2  0  0  0  0 59]]
+This fold took 0.318264 seconds
+ 
+In the 7 fold, the classification accuracy is 0.991667
+And the confusion matrix is: 
+[[59  0  0  0  0  0]
+ [ 0 60  0  0  0  0]
+ [ 0  0 60  0  0  0]
+ [ 0  2  0 63  0  0]
+ [ 0  0  0  0 54  0]
+ [ 1  0  0  0  0 61]]
+This fold took 0.318235 seconds
+ 
+In the 8 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[64  0  0  0  0  0]
+ [ 0 54  1  0  0  0]
+ [ 0  0 55  0  0  1]
+ [ 0  5  0 51  0  0]
+ [ 0  0  0  0 67  0]
+ [ 0  0  0  0  0 62]]
+This fold took 0.319266 seconds
+ 
+In the 9 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[68  0  0  0  0  0]
+ [ 0 61  0  2  0  0]
+ [ 0  1 54  0  0  0]
+ [ 0  3  0 49  0  0]
+ [ 0  0  0  0 55  0]
+ [ 0  0  0  0  0 67]]
+This fold took 0.318246 seconds
+ 
+ 
+Results:
+ 
+Nearest Neighbors took 2.235726 seconds
+with an average accuracy of 97.972222%
+ 
+Random Forest took 3.194500 seconds
+with an average accuracy of 98.500000%
+ 
+ 
+Test Sample
+Correct result:
+[4 5 0 1 3 2]
+KNN predicted result:
+[4 5 0 1 3 2]
+RF predicted result:
+[4 5 0 1 3 2]
+The whole code took 6.152833 seconds
+2017-11-01 19:15:24.433313
+ 
+Nearest Neighbors
+ 
+In the 0 fold, the classification accuracy is 0.988889
+And the confusion matrix is: 
+[[62  0  0  0  0  1]
+ [ 0 63  0  0  0  0]
+ [ 0  1 69  0  0  0]
+ [ 0  2  0 58  0  0]
+ [ 0  0  0  0 51  0]
+ [ 0  0  0  0  0 53]]
+This fold took 0.223188 seconds
+ 
+In the 1 fold, the classification accuracy is 0.972222
+And the confusion matrix is: 
+[[59  0  0  0  0  0]
+ [ 0 49  1  1  0  0]
+ [ 0  4 52  3  0  0]
+ [ 0  1  0 64  0  0]
+ [ 0  0  0  0 54  0]
+ [ 0  0  0  0  0 72]]
+This fold took 0.223173 seconds
+ 
+In the 2 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[59  0  0  0  0  0]
+ [ 0 60  0  0  0  0]
+ [ 0  3 58  0  0  0]
+ [ 0  1  0 60  2  0]
+ [ 0  0  0  0 67  0]
+ [ 0  0  0  0  0 50]]
+This fold took 0.223175 seconds
+ 
+In the 3 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[51  0  0  0  0  0]
+ [ 0 64  0  1  0  0]
+ [ 0  1 45  1  0  0]
+ [ 0  0  0 62  4  0]
+ [ 0  0  0  0 68  0]
+ [ 0  0  0  0  0 63]]
+This fold took 0.223159 seconds
+ 
+In the 4 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[73  0  0  0  0  0]
+ [ 0 58  0  0  0  0]
+ [ 0  1 49  0  0  0]
+ [ 0  2  0 53  2  0]
+ [ 0  0  0  0 67  0]
+ [ 2  0  0  0  0 53]]
+This fold took 0.223187 seconds
+ 
+In the 5 fold, the classification accuracy is 0.975000
+And the confusion matrix is: 
+[[50  0  0  0  0  0]
+ [ 0 46  0  0  2  0]
+ [ 0  0 74  1  0  0]
+ [ 0  3  0 45  3  0]
+ [ 0  0  0  0 62  0]
+ [ 0  0  0  0  0 74]]
+This fold took 0.224160 seconds
+ 
+In the 6 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[65  0  0  0  0  0]
+ [ 0 58  0  3  0  0]
+ [ 0  0 51  0  0  0]
+ [ 0  1  0 60  3  0]
+ [ 0  0  0  0 65  0]
+ [ 0  0  0  0  0 54]]
+This fold took 0.224188 seconds
+ 
+In the 7 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[54  0  0  0  0  0]
+ [ 0 69  0  1  1  0]
+ [ 0  3 59  1  0  0]
+ [ 0  1  0 60  0  0]
+ [ 0  0  0  0 48  0]
+ [ 0  0  0  0  0 63]]
+This fold took 0.222159 seconds
+ 
+In the 8 fold, the classification accuracy is 0.975000
+And the confusion matrix is: 
+[[63  0  0  0  0  0]
+ [ 0 62  0  0  1  0]
+ [ 0  1 60  0  0  0]
+ [ 0  3  0 55  4  0]
+ [ 0  0  0  0 59  0]
+ [ 0  0  0  0  0 52]]
+This fold took 0.224176 seconds
+ 
+In the 9 fold, the classification accuracy is 0.988889
+And the confusion matrix is: 
+[[63  0  0  0  0  0]
+ [ 0 58  0  2  0  0]
+ [ 0  0 62  1  0  0]
+ [ 0  0  0 50  1  0]
+ [ 0  0  0  0 59  0]
+ [ 0  0  0  0  0 64]]
+This fold took 0.223171 seconds
+ 
+ 
+Random Forest
+ 
+In the 0 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[57  0  0  0  0  0]
+ [ 0 61  1  1  0  0]
+ [ 0  0 62  0  0  0]
+ [ 0  3  0 61  0  0]
+ [ 0  0  0  0 59  0]
+ [ 2  0  0  0  0 53]]
+This fold took 0.319263 seconds
+ 
+In the 1 fold, the classification accuracy is 0.994444
+And the confusion matrix is: 
+[[63  0  0  0  0  0]
+ [ 0 71  0  2  0  0]
+ [ 0  0 51  0  0  0]
+ [ 0  0  0 53  0  0]
+ [ 0  0  0  0 56  0]
+ [ 0  0  0  0  0 64]]
+This fold took 0.319248 seconds
+ 
+In the 2 fold, the classification accuracy is 0.994444
+And the confusion matrix is: 
+[[57  0  0  0  0  0]
+ [ 0 57  0  0  0  0]
+ [ 0  0 62  0  0  0]
+ [ 0  1  0 48  0  0]
+ [ 0  0  0  0 62  0]
+ [ 1  0  0  0  0 72]]
+This fold took 0.319247 seconds
+ 
+In the 3 fold, the classification accuracy is 0.972222
+And the confusion matrix is: 
+[[48  0  0  0  0  0]
+ [ 0 53  0  1  0  0]
+ [ 0  0 81  0  0  0]
+ [ 0  6  0 62  1  0]
+ [ 0  0  0  0 50  0]
+ [ 2  0  0  0  0 56]]
+This fold took 0.319235 seconds
+ 
+In the 4 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[77  0  0  0  0  0]
+ [ 0 72  1  0  0  0]
+ [ 0  0 37  1  0  0]
+ [ 1  2  0 55  0  0]
+ [ 0  0  0  0 56  0]
+ [ 1  0  0  0  0 57]]
+This fold took 0.320263 seconds
+ 
+In the 5 fold, the classification accuracy is 0.988889
+And the confusion matrix is: 
+[[55  0  0  0  0  0]
+ [ 0 47  0  1  0  0]
+ [ 0  0 60  0  0  0]
+ [ 0  3  0 73  0  0]
+ [ 0  0  0  0 63  0]
+ [ 0  0  0  0  0 58]]
+This fold took 0.320249 seconds
+ 
+In the 6 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[57  0  0  0  0  0]
+ [ 0 58  0  1  0  0]
+ [ 0  1 67  0  0  0]
+ [ 0  4  0 55  0  0]
+ [ 0  0  0  0 67  0]
+ [ 0  0  0  0  0 50]]
+This fold took 0.320235 seconds
+ 
+In the 7 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[65  0  0  0  0  0]
+ [ 0 49  0  0  0  0]
+ [ 0  1 57  0  0  0]
+ [ 0  7  0 57  0  0]
+ [ 0  0  0  0 66  0]
+ [ 0  0  0  0  0 58]]
+This fold took 0.320263 seconds
+ 
+In the 8 fold, the classification accuracy is 0.988889
+And the confusion matrix is: 
+[[67  0  0  0  0  0]
+ [ 0 60  1  1  0  0]
+ [ 0  0 57  0  0  0]
+ [ 0  2  0 54  0  0]
+ [ 0  0  0  0 61  0]
+ [ 0  0  0  0  0 57]]
+This fold took 0.320250 seconds
+ 
+In the 9 fold, the classification accuracy is 0.988889
+And the confusion matrix is: 
+[[54  0  0  0  0  0]
+ [ 0 62  0  0  0  0]
+ [ 0  0 63  0  0  0]
+ [ 0  3  0 49  0  0]
+ [ 0  0  0  1 59  0]
+ [ 0  0  0  0  0 69]]
+This fold took 0.321249 seconds
+ 
+ 
+Results:
+ 
+Nearest Neighbors took 2.234723 seconds
+with an average accuracy of 98.055556%
+ 
+Random Forest took 3.200503 seconds
+with an average accuracy of 98.527778%
+ 
+ 
+Test Sample
+Correct result:
+[4 5 0 1 3 2]
+KNN predicted result:
+[4 5 0 1 3 2]
+RF predicted result:
+[4 5 0 1 3 2]
+The whole code took 6.148833 seconds
+2017-11-01 19:15:50.687008
+ 
+Nearest Neighbors
+ 
+In the 0 fold, the classification accuracy is 0.986111
+And the confusion matrix is: 
+[[65  0  0  0  0  0]
+ [ 0 49  0  3  0  0]
+ [ 0  1 48  0  0  0]
+ [ 0  0  0 63  1  0]
+ [ 0  0  0  0 72  0]
+ [ 0  0  0  0  0 58]]
+This fold took 0.223172 seconds
+ 
+In the 1 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[70  0  0  0  0  0]
+ [ 0 54  0  0  1  0]
+ [ 0  2 60  2  0  0]
+ [ 0  1  0 49  0  0]
+ [ 0  0  0  0 64  0]
+ [ 0  0  0  0  0 57]]
+This fold took 0.223157 seconds
+ 
+In the 2 fold, the classification accuracy is 0.958333
+And the confusion matrix is: 
+[[54  0  0  0  0  0]
+ [ 0 59  0  1  1  0]
+ [ 0  4 57  2  0  0]
+ [ 0  1  0 60  5  0]
+ [ 0  0  0  0 47  0]
+ [ 1  0  0  0  0 68]]
+This fold took 0.223187 seconds
+ 
+In the 3 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[66  0  0  0  0  1]
+ [ 0 65  0  3  0  0]
+ [ 0  0 62  0  0  0]
+ [ 0  1  0 54  3  0]
+ [ 0  0  0  0 62  0]
+ [ 0  0  0  0  0 43]]
+This fold took 0.222173 seconds
+ 
+In the 4 fold, the classification accuracy is 0.975000
+And the confusion matrix is: 
+[[68  0  0  0  0  0]
+ [ 0 56  0  0  1  0]
+ [ 0  0 65  1  0  0]
+ [ 0  2  0 48  5  0]
+ [ 0  0  0  0 56  0]
+ [ 0  0  0  0  0 58]]
+This fold took 0.224175 seconds
+ 
+In the 5 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[51  0  0  0  0  0]
+ [ 0 61  0  0  0  0]
+ [ 0  1 54  1  0  0]
+ [ 0  1  0 66  3  0]
+ [ 0  0  0  0 61  0]
+ [ 0  0  0  0  0 61]]
+This fold took 0.229164 seconds
+ 
+In the 6 fold, the classification accuracy is 0.991667
+And the confusion matrix is: 
+[[62  0  0  0  0  0]
+ [ 0 61  1  1  0  0]
+ [ 0  1 53  0  0  0]
+ [ 0  0  0 52  0  0]
+ [ 0  0  0  0 67  0]
+ [ 0  0  0  0  0 62]]
+This fold took 0.222187 seconds
+ 
+In the 7 fold, the classification accuracy is 0.986111
+And the confusion matrix is: 
+[[56  0  0  0  0  0]
+ [ 0 63  0  0  0  0]
+ [ 0  2 63  1  0  0]
+ [ 0  0  0 56  2  0]
+ [ 0  0  0  0 51  0]
+ [ 0  0  0  0  0 66]]
+This fold took 0.223174 seconds
+ 
+In the 8 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[55  0  0  0  0  0]
+ [ 0 51  0  1  1  0]
+ [ 0  1 65  0  0  0]
+ [ 0  4  0 65  0  0]
+ [ 0  0  0  0 56  0]
+ [ 0  0  0  0  0 61]]
+This fold took 0.223174 seconds
+ 
+In the 9 fold, the classification accuracy is 0.988889
+And the confusion matrix is: 
+[[52  0  0  0  0  0]
+ [ 0 67  0  0  0  0]
+ [ 0  1 53  0  0  0]
+ [ 0  1  0 55  2  0]
+ [ 0  0  0  0 64  0]
+ [ 0  0  0  0  0 65]]
+This fold took 0.222168 seconds
+ 
+ 
+Random Forest
+ 
+In the 0 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[59  0  0  0  0  0]
+ [ 0 54  0  1  0  0]
+ [ 0  2 55  0  0  0]
+ [ 0  3  0 59  0  0]
+ [ 0  0  0  0 67  0]
+ [ 0  0  0  0  0 60]]
+This fold took 0.322255 seconds
+ 
+In the 1 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[62  0  0  0  0  1]
+ [ 0 68  0  1  0  0]
+ [ 0  0 50  0  0  0]
+ [ 0  3  1 58  0  0]
+ [ 0  0  0  0 53  0]
+ [ 0  0  0  0  0 63]]
+This fold took 0.319244 seconds
+ 
+In the 2 fold, the classification accuracy is 0.988889
+And the confusion matrix is: 
+[[64  0  0  0  0  0]
+ [ 0 66  1  0  0  0]
+ [ 0  0 48  0  0  0]
+ [ 0  3  0 59  0  0]
+ [ 0  0  0  0 56  0]
+ [ 0  0  0  0  0 63]]
+This fold took 0.320239 seconds
+ 
+In the 3 fold, the classification accuracy is 0.994444
+And the confusion matrix is: 
+[[49  0  0  0  0  0]
+ [ 0 66  0  0  0  0]
+ [ 0  0 67  0  0  0]
+ [ 0  2  0 60  0  0]
+ [ 0  0  0  0 61  0]
+ [ 0  0  0  0  0 55]]
+This fold took 0.320248 seconds
+ 
+In the 4 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[65  0  0  0  0  0]
+ [ 0 57  1  0  0  0]
+ [ 0  1 54  0  0  0]
+ [ 0  4  0 60  0  0]
+ [ 0  0  0  0 63  0]
+ [ 0  0  0  0  0 55]]
+This fold took 0.320260 seconds
+ 
+In the 5 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[46  0  0  0  0  0]
+ [ 0 60  0  0  0  0]
+ [ 0  0 68  0  0  0]
+ [ 0  6  0 50  0  0]
+ [ 0  0  0  0 68  0]
+ [ 1  0  0  0  0 61]]
+This fold took 0.322254 seconds
+ 
+In the 6 fold, the classification accuracy is 0.986111
+And the confusion matrix is: 
+[[52  0  0  0  0  0]
+ [ 0 63  0  3  0  0]
+ [ 0  0 54  0  0  0]
+ [ 0  2  0 61  0  0]
+ [ 0  0  0  0 65  0]
+ [ 0  0  0  0  0 60]]
+This fold took 0.320236 seconds
+ 
+In the 7 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[64  0  0  0  0  0]
+ [ 0 52  1  1  0  0]
+ [ 0  0 56  0  0  0]
+ [ 0  4  0 51  0  0]
+ [ 0  0  0  0 69  0]
+ [ 0  0  0  0  0 62]]
+This fold took 0.320250 seconds
+ 
+In the 8 fold, the classification accuracy is 0.988889
+And the confusion matrix is: 
+[[78  0  0  0  0  0]
+ [ 0 48  0  0  0  0]
+ [ 0  0 72  0  0  0]
+ [ 0  4  0 52  0  0]
+ [ 0  0  0  0 47  0]
+ [ 0  0  0  0  0 59]]
+This fold took 0.320263 seconds
+ 
+In the 9 fold, the classification accuracy is 0.991667
+And the confusion matrix is: 
+[[60  0  0  0  0  0]
+ [ 0 57  0  0  0  0]
+ [ 0  0 73  0  0  0]
+ [ 0  2  0 56  0  0]
+ [ 0  0  0  0 51  0]
+ [ 1  0  0  0  0 60]]
+This fold took 0.320235 seconds
+ 
+ 
+Results:
+ 
+Nearest Neighbors took 2.236737 seconds
+with an average accuracy of 98.111111%
+ 
+Random Forest took 3.206483 seconds
+with an average accuracy of 98.638889%
+ 
+ 
+Test Sample
+Correct result:
+[4 5 0 1 3 2]
+KNN predicted result:
+[4 5 0 1 3 2]
+RF predicted result:
+[4 5 0 1 3 2]
+The whole code took 6.134811 seconds
+hello
+2017-11-01 19:16:02.089863
+ 
+Nearest Neighbors
+ 
+In the 0 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[58  0  0  0  0  0]
+ [ 0 73  0  1  1  0]
+ [ 0  2 56  0  0  0]
+ [ 0  1  0 55  1  0]
+ [ 0  0  0  0 54  0]
+ [ 0  0  0  0  0 58]]
+This fold took 0.224187 seconds
+ 
+In the 1 fold, the classification accuracy is 0.983333
+And the confusion matrix is: 
+[[64  0  0  0  0  0]
+ [ 0 61  0  0  0  0]
+ [ 0  1 53  0  0  0]
+ [ 0  1  0 48  4  0]
+ [ 0  0  0  0 50  0]
+ [ 0  0  0  0  0 78]]
+This fold took 0.222173 seconds
+ 
+In the 2 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[56  0  0  0  0  0]
+ [ 0 50  0  0  1  0]
+ [ 0  1 59  2  0  0]
+ [ 0  3  0 57  0  0]
+ [ 0  0  0  0 64  0]
+ [ 0  0  0  0  0 67]]
+This fold took 0.222174 seconds
+ 
+In the 3 fold, the classification accuracy is 0.994444
+And the confusion matrix is: 
+[[57  0  0  0  0  0]
+ [ 0 54  0  0  0  0]
+ [ 0  0 68  0  0  0]
+ [ 0  0  0 53  2  0]
+ [ 0  0  0  0 67  0]
+ [ 0  0  0  0  0 59]]
+This fold took 0.223158 seconds
+ 
+In the 4 fold, the classification accuracy is 0.986111
+And the confusion matrix is: 
+[[57  0  0  0  0  1]
+ [ 0 58  1  2  0  0]
+ [ 0  0 66  0  0  0]
+ [ 0  1  0 66  0  0]
+ [ 0  0  0  0 58  0]
+ [ 0  0  0  0  0 50]]
+This fold took 0.223188 seconds
+ 
+In the 5 fold, the classification accuracy is 0.972222
+And the confusion matrix is: 
+[[59  0  0  0  0  0]
+ [ 0 62  0  0  0  0]
+ [ 0  2 55  3  0  0]
+ [ 0  0  0 57  4  0]
+ [ 0  0  0  0 63  0]
+ [ 1  0  0  0  0 54]]
+This fold took 0.223160 seconds
+ 
+In the 6 fold, the classification accuracy is 0.975000
+And the confusion matrix is: 
+[[57  0  0  0  0  0]
+ [ 0 60  0  0  0  0]
+ [ 0  4 63  1  0  0]
+ [ 0  1  0 65  3  0]
+ [ 0  0  0  0 51  0]
+ [ 0  0  0  0  0 55]]
+This fold took 0.224174 seconds
+ 
+In the 7 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[61  0  0  0  0  0]
+ [ 0 60  0  3  0  0]
+ [ 0  0 54  0  0  0]
+ [ 0  1  0 59  3  0]
+ [ 0  0  0  0 62  0]
+ [ 0  0  0  0  0 57]]
+This fold took 0.225176 seconds
+ 
+In the 8 fold, the classification accuracy is 0.975000
+And the confusion matrix is: 
+[[60  0  0  0  0  0]
+ [ 0 54  0  1  2  0]
+ [ 0  1 55  0  0  0]
+ [ 0  2  0 56  3  0]
+ [ 0  0  0  0 70  0]
+ [ 0  0  0  0  0 56]]
+This fold took 0.224185 seconds
+ 
+In the 9 fold, the classification accuracy is 0.969444
+And the confusion matrix is: 
+[[70  0  0  0  0  0]
+ [ 0 55  0  1  0  0]
+ [ 0  2 51  1  0  0]
+ [ 0  1  0 47  6  0]
+ [ 0  0  0  0 61  0]
+ [ 0  0  0  0  0 65]]
+This fold took 0.224179 seconds
+ 
+ 
+Random Forest
+ 
+In the 0 fold, the classification accuracy is 0.972222
+And the confusion matrix is: 
+[[76  0  0  0  0  0]
+ [ 0 52  0  3  0  0]
+ [ 0  1 53  0  0  0]
+ [ 0  4  1 50  0  0]
+ [ 0  0  0  1 59  0]
+ [ 0  0  0  0  0 60]]
+This fold took 0.319246 seconds
+ 
+In the 1 fold, the classification accuracy is 0.991667
+And the confusion matrix is: 
+[[55  0  0  0  0  0]
+ [ 0 67  0  0  0  0]
+ [ 0  1 66  0  0  0]
+ [ 0  2  0 72  0  0]
+ [ 0  0  0  0 49  0]
+ [ 0  0  0  0  0 48]]
+This fold took 0.320249 seconds
+ 
+In the 2 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[58  0  0  0  0  0]
+ [ 0 49  0  3  0  0]
+ [ 0  1 47  0  0  0]
+ [ 0  3  0 72  0  0]
+ [ 0  0  0  0 68  0]
+ [ 1  0  0  0  0 58]]
+This fold took 0.320235 seconds
+ 
+In the 3 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[59  0  0  0  0  0]
+ [ 0 61  1  1  0  0]
+ [ 0  0 59  0  0  0]
+ [ 0  6  0 45  0  0]
+ [ 0  0  0  0 67  0]
+ [ 0  0  0  0  0 61]]
+This fold took 0.320263 seconds
+ 
+In the 4 fold, the classification accuracy is 0.991667
+And the confusion matrix is: 
+[[63  0  0  0  0  0]
+ [ 0 52  0  1  0  0]
+ [ 0  2 69  0  0  0]
+ [ 0  0  0 57  0  0]
+ [ 0  0  0  0 51  0]
+ [ 0  0  0  0  0 65]]
+This fold took 0.320249 seconds
+ 
+In the 5 fold, the classification accuracy is 0.977778
+And the confusion matrix is: 
+[[65  0  0  0  0  0]
+ [ 0 66  0  1  0  0]
+ [ 0  1 60  0  0  0]
+ [ 0  5  0 45  0  0]
+ [ 0  0  0  0 61  0]
+ [ 1  0  0  0  0 55]]
+This fold took 0.320249 seconds
+ 
+In the 6 fold, the classification accuracy is 0.991667
+And the confusion matrix is: 
+[[60  0  0  0  0  0]
+ [ 0 54  0  0  0  0]
+ [ 0  0 53  0  0  0]
+ [ 0  3  0 62  0  0]
+ [ 0  0  0  0 62  0]
+ [ 0  0  0  0  0 66]]
+This fold took 0.319234 seconds
+ 
+In the 7 fold, the classification accuracy is 0.986111
+And the confusion matrix is: 
+[[54  0  0  0  0  0]
+ [ 0 65  0  2  0  0]
+ [ 0  0 60  0  0  0]
+ [ 0  3  0 54  0  0]
+ [ 0  0  0  0 71  0]
+ [ 0  0  0  0  0 51]]
+This fold took 0.320249 seconds
+ 
+In the 8 fold, the classification accuracy is 0.980556
+And the confusion matrix is: 
+[[48  0  0  0  0  0]
+ [ 0 56  0  0  0  0]
+ [ 0  1 66  0  0  0]
+ [ 0  5  0 53  0  0]
+ [ 0  0  0  0 62  0]
+ [ 1  0  0  0  0 68]]
+This fold took 0.320264 seconds
+ 
+In the 9 fold, the classification accuracy is 0.988889
+And the confusion matrix is: 
+[[62  0  0  0  0  0]
+ [ 0 65  0  1  0  0]
+ [ 0  2 58  0  0  0]
+ [ 0  1  0 57  0  0]
+ [ 0  0  0  0 49  0]
+ [ 0  0  0  0  0 65]]
+This fold took 0.319248 seconds
+ 
+ 
+Results:
+ 
+Nearest Neighbors took 2.235752 seconds
+with an average accuracy of 98.000000%
+ 
+Random Forest took 3.200488 seconds
+with an average accuracy of 98.361111%
+ 
+ 
+Test Sample
+Correct result:
+[4 5 0 1 3 2]
+KNN predicted result:
+[4 5 0 1 3 2]
+RF predicted result:
+[4 5 0 1 3 2]
+The whole code took 6.163811 seconds
