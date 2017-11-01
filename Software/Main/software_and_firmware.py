@@ -30,7 +30,7 @@ import array
 # Declarations
 flag = 1
 debugLoops = 20
-mainLoops = 3000
+mainLoops = 6000
 ignoreLoopCount = 0
 loopCount = 0
 newAccID = 0
@@ -131,9 +131,11 @@ while (loopCount < mainLoops):
         print('Resetting values to continue')
         oldAccID = newAccID
         ser.write("\r\nR") # Send request for resend of data from Arduino
-        
+
     checkSum = 0
     hashcount = 0
+    if (loopCount%100):
+        print(loopCount)
 
 if (errorFlag == 0):
     print('Average main loop duration (ms):', ((current_milli_time()-startTime)/mainLoops))
