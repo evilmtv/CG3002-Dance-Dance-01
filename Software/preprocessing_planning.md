@@ -1,0 +1,12 @@
+# Planning for data pre-processing
+- Target rate of trasmission (1 set of raw data) = 50Hz
+- Interval = 1s / 50Hz = 20ms
+- Target rate of result = Target rate of displaying result on server = 1Hz
+  - Readable and responsive enough for end user
+- Sets of raw data available to play with = 50Hz / 1Hz = 50 sets
+- Take average of 5 data into one => 50 / 5 = 10 sets of 5 averaged sets
+  - To account for unintended fluctuations
+- Take difference between each, i.e. `x1.1 = x1.2 - x1.1, x1.2 = x1.3 - x1.2` => 10 - 1 = 9 sets
+  - Thus do not require accelerometers to be calibrated -> user can easily swap accelerometers without worrying about calibration
+- Pass in all 9 sets into Classifier => 9 sets * 12 values each = 108 values (too much?)
+- 
