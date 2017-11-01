@@ -46,7 +46,7 @@ cols = ['ID', 'x0', 'y0', 'z0', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2', 'x3', 'y3', 
 fullDF = pd.DataFrame(columns=cols)
 
 # Initialize serial
-ser = serial.Serial("/dev/ttyACM1", baudrate=115200, timeout=3.0)
+ser = serial.Serial("/dev/ttyACM0", baudrate=115200, timeout=3.0)
 print("Raspberry Pi Ready")
 
 # Perform handshake
@@ -102,6 +102,7 @@ while (loopCount < mainLoops):
                 checkSum ^= int(byteMessage[hashcount])
                 hashcount += 1
         if chr(checkSum) == message[len(message)-2]: # Check if checksums matches
+            ser.write("\r\nA")
             #print('Correct')
             #print(message)
             messagenp = np.fromstring(message[0:(len(message)-2)], dtype=int, sep=",")
@@ -109,16 +110,16 @@ while (loopCount < mainLoops):
             #print(messagenp)
             messagepd = pd.DataFrame(data=messagenp.reshape(-1, (len(messagenp))), index=['1'], columns=cols)
             #print(messagepd)
-            ser.write("\r\nA")
             fullDF = fullDF.append(messagepd, ignore_index = True)
             loopCount += 1
             oldAccID = newAccID + 1
         else: # Checksums do not match
+            ser.write("\r\nR") # Send request for resend of data from Arduino
             print('Checksums do not match!')
             print("Message:", message)
             print("Checksum:", chr(checkSum))
-            ser.write("\r\nR") # Send request for resend of data from Arduino
     else :
+        ser.write("\r\nR") # Send request for resend of data from Arduino
         print(' ')
         print('ID MISMATCH')
         print('At Loop:', loopCount)
@@ -130,11 +131,11 @@ while (loopCount < mainLoops):
         #loopCount = mainLoops
         print('Resetting values to continue')
         oldAccID = newAccID
-        ser.write("\r\nR") # Send request for resend of data from Arduino
+        
 
     checkSum = 0
     hashcount = 0
-    if (loopCount%100):
+    if (loopCount%100 == 0):
         print(loopCount)
 
 if (errorFlag == 0):
