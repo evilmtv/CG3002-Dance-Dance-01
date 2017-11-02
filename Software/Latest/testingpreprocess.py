@@ -14,7 +14,7 @@ avgBy = 5
 toReshape = 1
 reshapeBy = 20
 
-fullDF = pd.DataFrame(columns=list(range(241)))
+fullDF = pd.DataFrame(columns=list(range(481)))
 
 
 
@@ -26,10 +26,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='Standing'
+pdtestdata[480]='Standing'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -44,10 +44,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='WaveHands'
+pdtestdata[480]='WaveHands'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -62,10 +62,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='BusDriver'
+pdtestdata[480]='BusDriver'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -80,10 +80,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='FrontBack'
+pdtestdata[480]='FrontBack'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -98,10 +98,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='SideStep'
+pdtestdata[480]='SideStep'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -116,10 +116,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='Jumping'
+pdtestdata[480]='Jumping'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -134,10 +134,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='Standing'
+pdtestdata[480]='Standing'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -152,10 +152,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(600,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='Standing'
+pdtestdata[480]='Standing'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -170,10 +170,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='WaveHands'
+pdtestdata[480]='WaveHands'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -188,10 +188,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='BusDriver'
+pdtestdata[480]='BusDriver'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -206,10 +206,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='FrontBack'
+pdtestdata[480]='FrontBack'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -224,10 +224,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(600,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='FrontBack'
+pdtestdata[480]='FrontBack'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -242,10 +242,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='SideStep'
+pdtestdata[480]='SideStep'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -260,10 +260,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(600,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='SideStep'
+pdtestdata[480]='SideStep'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -278,10 +278,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='Jumping'
+pdtestdata[480]='Jumping'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -296,10 +296,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='Standing'
+pdtestdata[480]='Standing'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -314,10 +314,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='WaveHands'
+pdtestdata[480]='WaveHands'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -332,10 +332,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='BusDriver'
+pdtestdata[480]='BusDriver'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -350,10 +350,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='FrontBack'
+pdtestdata[480]='FrontBack'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -368,10 +368,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='SideStep'
+pdtestdata[480]='SideStep'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -386,10 +386,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='Jumping'
+pdtestdata[480]='Jumping'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -404,10 +404,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='Standing'
+pdtestdata[480]='Standing'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -422,10 +422,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='WaveHands'
+pdtestdata[480]='WaveHands'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -440,10 +440,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='BusDriver'
+pdtestdata[480]='BusDriver'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -458,10 +458,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='FrontBack'
+pdtestdata[480]='FrontBack'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -476,10 +476,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='SideStep'
+pdtestdata[480]='SideStep'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata
@@ -494,10 +494,10 @@ if (toAvg):
     pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
 
 if (toReshape):
-    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(150,480)),  columns=list(range(480)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
-pdtestdata[240]='Jumping'
+pdtestdata[480]='Jumping'
 #print(pdtestdata)
 fullDF = fullDF.append(pdtestdata, ignore_index = True)
 del pdtestdata

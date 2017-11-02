@@ -42,7 +42,7 @@ with open('processed_data.csv') as csvfile:
 #Sort data into a whole array and extract necessary data
 testdata = np.genfromtxt ('processed_data.csv', delimiter=",")
 testdata = np.delete(testdata, (0), axis=0)
-X = testdata[:,list(range(1, 240))]
+X = testdata[:,list(range(1, 480))]
 
 
 #Data pre-processing
@@ -53,7 +53,7 @@ le = preprocessing.LabelEncoder()
 le.fit(['Standing', 'WaveHands', 'BusDriver', 'FrontBack', 'SideStep', 'Jumping'])
 #print(list(le.classes_))
 y = []
-y = le.transform(column['240'])
+y = le.transform(column['480'])
 
 #Normalize data
 normalized_X = preprocessing.normalize(X)
@@ -63,7 +63,7 @@ normalized_X = preprocessing.normalize(X)
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import KFold
-from sklearn.metrics import confusion_matrix
+#from sklearn.metrics import confusion_matrix
 
 n_splits_val = 10
 kfold = KFold(n_splits=n_splits_val, shuffle=True)

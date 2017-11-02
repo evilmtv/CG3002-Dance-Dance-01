@@ -11,7 +11,7 @@ import os, random
 import socket
 
 client = socket.socket()
-ip = input("Enter IP: 192.168.43.87")
+ip = input("Enter IP:")
 #ip = socket.gethostbyname(socket.gethostname())
 port = int(input("Enter port: "))
 #port = 3002
@@ -160,13 +160,17 @@ while (loopCount < mainLoops):
             oneSegmentCounter = oneSegmentCounter + 1
 
         else: # Checksums do not match
-            ser.write("\r\nR") # Send request for resend of data from Arduino
+            ser.write("\r\nA")
+            loopCount += 1
+            oldAccID = newAccID + 1
+            #ser.write("\r\nR") # Send request for resend of data from Arduino
             print('Checksums do not match!')
             print("Message:", message)
             print("Checksum:", chr(checkSum))
 
     else :
-        ser.write("\r\nR") # Send request for resend of data from Arduino
+        #ser.write("\r\nR") # Send request for resend of data from Arduino
+        ser.write("\r\nA")
         print(' ')
         print('ID MISMATCH')
         print('At Loop:', loopCount)
@@ -177,16 +181,17 @@ while (loopCount < mainLoops):
         #errorFlag = 1
         #loopCount = mainLoops
         print('Resetting values to continue')
-        oldAccID = newAccID
+        oldAccID = newAccID + 1
 
     checkSum = 0
     hashcount = 0
     if (loopCount%100 == 0):
         print(loopCount)
-    if (oneSegmentCounter == 20):
+    if (oneSegmentCounter == 40):
         oneSegmentCounter = 0
+
         fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
-        fullDF = pd.DataFrame(np.reshape(fullDF.values,(1,240)),  columns=list(range(240)))
+        fullDF = pd.DataFrame(np.reshape(fullDF.values,(1,480)),  columns=list(range(480)))
         fullDF.to_csv('temp.csv', sep=',')
         #Sort data into columns -> For some reason can't extract class column using the better(next) method
         with open('temp.csv') as csvfile:
@@ -202,14 +207,18 @@ while (loopCount < mainLoops):
         #Sort data into a whole array and extract necessary data
         testdata = np.genfromtxt ('temp.csv', delimiter=",")
         testdata = np.delete(testdata, (0), axis=0)
-        X = testdata[:,list(range(1, 240))]
+        X = testdata[:,list(range(1, 480))]
+
         #Normalize data
         normalized_X = preprocessing.normalize(X)
-        print('KNN:', (le.inverse_transform(knn_model.predict(normalized_X))), 'RF', (le.inverse_transform(rf_model.predict(normalized_X))))
+
+        #Send and print data in readable format
         sendEncoded((le.inverse_transform(rf_model.predict(normalized_X))), 1, 2, 3, 4)
+        print('KNN:', (le.inverse_transform(knn_model.predict(normalized_X))), 'RF', (le.inverse_transform(rf_model.predict(normalized_X))))
+
+        #Clear and reset variable
         del fullDF
         fullDF = pd.DataFrame(columns=cols)
-
 
 if (errorFlag == 0):
     print('Average main loop duration (ms):', ((current_milli_time()-startTime)/mainLoops))
