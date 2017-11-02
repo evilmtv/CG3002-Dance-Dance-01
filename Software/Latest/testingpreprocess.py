@@ -144,6 +144,24 @@ del pdtestdata
 
 
 
+pdtestdata = pd.read_csv('raph0_2.csv', delimiter=',')
+pdtestdata = pdtestdata.drop(pdtestdata.columns[0], axis=1) # Remove ID
+#print(pdtestdata)
+
+if (toAvg):
+    pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
+
+if (toReshape):
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(600,240)),  columns=list(range(240)))
+
+pdtestdata = pdtestdata.reset_index(drop=True)
+pdtestdata[240]='Standing'
+#print(pdtestdata)
+fullDF = fullDF.append(pdtestdata, ignore_index = True)
+del pdtestdata
+
+
+
 pdtestdata = pd.read_csv('Raph1.csv', delimiter=',')
 pdtestdata = pdtestdata.drop(pdtestdata.columns[0], axis=1) # Remove ID
 #print(pdtestdata)
@@ -198,6 +216,24 @@ del pdtestdata
 
 
 
+pdtestdata = pd.read_csv('raph3_2.csv', delimiter=',')
+pdtestdata = pdtestdata.drop(pdtestdata.columns[0], axis=1) # Remove ID
+#print(pdtestdata)
+
+if (toAvg):
+    pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
+
+if (toReshape):
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(600,240)),  columns=list(range(240)))
+
+pdtestdata = pdtestdata.reset_index(drop=True)
+pdtestdata[240]='FrontBack'
+#print(pdtestdata)
+fullDF = fullDF.append(pdtestdata, ignore_index = True)
+del pdtestdata
+
+
+
 pdtestdata = pd.read_csv('Raph4.csv', delimiter=',')
 pdtestdata = pdtestdata.drop(pdtestdata.columns[0], axis=1) # Remove ID
 #print(pdtestdata)
@@ -207,6 +243,24 @@ if (toAvg):
 
 if (toReshape):
     pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(300,240)),  columns=list(range(240)))
+
+pdtestdata = pdtestdata.reset_index(drop=True)
+pdtestdata[240]='SideStep'
+#print(pdtestdata)
+fullDF = fullDF.append(pdtestdata, ignore_index = True)
+del pdtestdata
+
+
+
+pdtestdata = pd.read_csv('raph4_2.csv', delimiter=',')
+pdtestdata = pdtestdata.drop(pdtestdata.columns[0], axis=1) # Remove ID
+#print(pdtestdata)
+
+if (toAvg):
+    pdtestdata = ((pdtestdata + pdtestdata.shift(-1) + pdtestdata.shift(-2) + pdtestdata.shift(-3) + pdtestdata.shift(-4)) / 5)[::5]
+
+if (toReshape):
+    pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(600,240)),  columns=list(range(240)))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
 pdtestdata[240]='SideStep'

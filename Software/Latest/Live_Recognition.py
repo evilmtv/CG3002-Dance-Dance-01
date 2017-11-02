@@ -4,6 +4,40 @@ Created on Fri Oct 27 16:09:01 2017
 
 @author: Jun Hao
 """
+from Crypto.Cipher import AES
+from Crypto import Random
+import base64
+import os, random
+import socket
+
+client = socket.socket()
+ip = input("Enter IP: 192.168.43.87")
+#ip = socket.gethostbyname(socket.gethostname())
+port = int(input("Enter port: "))
+#port = 3002
+address = (ip,port)
+client.connect(address)
+
+def encryptData(data):
+    BLOCK_SIZE = 16
+    PADDING = ' '
+
+    pad = lambda s: s + (BLOCK_SIZE - (len(s) % BLOCK_SIZE)) * PADDING
+
+    key = '3002300230023002'
+    iv = Random.new().read(AES.block_size)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    encoded = base64.b64encode(iv + cipher.encrypt(pad(data)))
+    #print('Encryption key: ', key)
+    print('Encrypted string: ', encoded)
+    return encoded
+
+def sendEncoded(action, voltage, current, power, cumpower):
+    msg = '#' + str(action) + '|' + str(voltage) + '|' + str(current) + '|' + str(power) + '|' + str(cumpower)
+    client.send(encryptData(msg))
+
+
+
 
 #Set print command to print to file
 #import sys
@@ -149,7 +183,7 @@ while (loopCount < mainLoops):
     hashcount = 0
     if (loopCount%100 == 0):
         print(loopCount)
-    if (oneSegmentCounter == 10):
+    if (oneSegmentCounter == 20):
         oneSegmentCounter = 0
         fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
         fullDF = pd.DataFrame(np.reshape(fullDF.values,(1,240)),  columns=list(range(240)))
@@ -172,9 +206,10 @@ while (loopCount < mainLoops):
         #Normalize data
         normalized_X = preprocessing.normalize(X)
         print('KNN:', (le.inverse_transform(knn_model.predict(normalized_X))), 'RF', (le.inverse_transform(rf_model.predict(normalized_X))))
+        sendEncoded((le.inverse_transform(rf_model.predict(normalized_X))), 1, 2, 3, 4)
         del fullDF
         fullDF = pd.DataFrame(columns=cols)
-        
+
 
 if (errorFlag == 0):
     print('Average main loop duration (ms):', ((current_milli_time()-startTime)/mainLoops))
