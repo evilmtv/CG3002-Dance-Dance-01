@@ -9,6 +9,16 @@ from Crypto import Random
 import base64
 import os, random
 import socket
+import pandas as pd
+import numpy as np
+import csv
+from sklearn import preprocessing
+from sklearn.externals import joblib
+import serial
+import array
+#import sys
+from datetime import datetime
+import time
 
 client = socket.socket()
 ip = input("Enter IP:")
@@ -36,27 +46,13 @@ def sendEncoded(action, voltage, current, power, cumpower):
     msg = '#' + str(action) + '|' + str(voltage) + '|' + str(current) + '|' + str(power) + '|' + str(cumpower)
     client.send(encryptData(msg))
 
-
-
-
 #Set print command to print to file
-#import sys
 #sys.stdout = open("OutputComb.txt", "w")
 
-import pandas as pd
-import numpy as np
-import csv
-from sklearn import preprocessing
-from sklearn.externals import joblib
-import serial
-import array
-
 #Print current time on computer
-from datetime import datetime
 print (str(datetime.now()))
 
 #Implement simple timer
-import time
 current_milli_time = lambda: int(round(time.time() * 1000))
 #startTime = current_milli_time()
 timetotalsegment = 0
@@ -71,7 +67,7 @@ rf_model = joblib.load('model_rf.pkl')
 
 # Declarations
 isHandshakeDone = 0
-debugLoops = 100
+debugLoops = 50
 mainLoops = 6000
 ignoreLoopCount = 0
 loopCount = 0
@@ -105,7 +101,7 @@ while isHandshakeDone == 0:
         else:
             time.sleep(3)
 
-# Ignore first 100 readings
+# Ignore first 50 readings
 print("Ignoring starting readings")
 startTime = current_milli_time()
 while (ignoreLoopCount < debugLoops):
@@ -220,15 +216,11 @@ while (loopCount < mainLoops):
         del fullDF
         fullDF = pd.DataFrame(columns=cols)
 
-if (errorFlag == 0):
-    print('Average main loop duration (ms):', ((current_milli_time()-startTime)/mainLoops))
+print('Average main loop duration (ms):', ((current_milli_time()-startTime)/mainLoops))
+print(fullDF)
 
-    print(fullDF)
+# Remove unneeded data
+fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
 
-
-    # Remove unneeded data
-    #fullDF = fullDF.drop(fullDF.columns[14], axis=1)
-    #fullDF = fullDF.drop(fullDF.columns[13], axis=1)
-    fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
-    # Save cleaned raw data to csv file
-    fullDF.to_csv('recorded_data.csv', sep=',')
+# Save cleaned raw data to csv file
+fullDF.to_csv('recorded_data.csv', sep=',')
