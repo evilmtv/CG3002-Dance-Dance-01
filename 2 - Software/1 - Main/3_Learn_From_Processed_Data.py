@@ -15,6 +15,9 @@ print (str(datetime.now()))
 import time
 tfulls = time.time()
 
+# Config.ini
+reshapeBy = 40 # Set number of inputs per sample for Machine Learning
+
 # Initialize random seed
 #import random
 #from random import randint
@@ -42,7 +45,7 @@ with open('processed_data.csv') as csvfile:
 #Sort data into a whole array and extract necessary data
 testdata = np.genfromtxt ('processed_data.csv', delimiter=",")
 testdata = np.delete(testdata, (0), axis=0)
-X = testdata[:,list(range(1, 480))]
+X = testdata[:,list(range(1, reshapeBy*12))]
 
 
 #Data pre-processing
@@ -53,7 +56,7 @@ le = preprocessing.LabelEncoder()
 le.fit(['Standing', 'WaveHands', 'BusDriver', 'FrontBack', 'SideStep', 'Jumping'])
 #print(list(le.classes_))
 y = []
-y = le.transform(column['480'])
+y = le.transform(column[str(reshapeBy*12)])
 
 #Normalize data
 normalized_X = preprocessing.normalize(X)

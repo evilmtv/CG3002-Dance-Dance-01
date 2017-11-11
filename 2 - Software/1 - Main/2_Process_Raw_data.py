@@ -12,7 +12,6 @@ import numpy as np
 # Config.ini
 toAvg = 0
 avgBy = 5
-
 toReshape = 1
 reshapeBy = 40 # Set number of inputs per sample for Machine Learning
 
