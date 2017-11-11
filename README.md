@@ -1,6 +1,6 @@
-# [CG3002 Dance Dance Project](Docs/Handouts/CG3002-dance.pdf "CG3002 Embedded System Design Project")
+# [CG3002 Dance Dance Project](1%20-%20Docs/Handouts/CG3002-dance.pdf "CG3002 Embedded System Design Project")
 
-## Software
+## Set-up
 
 ### Windows
 1. [GitKraken 3.2.1](https://www.gitkraken.com/)
@@ -9,6 +9,7 @@
     - `conda install -c anaconda pyserial`
 3. [RealVNC Viwer](https://www.realvnc.com/en/connect/download/viewer/)
     - Get the `Standalone EXE x64` if you do not wish to install
+4. [Arduino IDE 1.8.5](https://www.arduino.cc/en/Main/Software)
 
 ### Raspberry Pi
 1. [Noobs 2.4.4](https://www.raspberrypi.org/downloads/noobs/)
@@ -98,7 +99,3 @@
     - `pip freeze > ~/Desktop/pip-freeze-initial.list`
 - [[Python-Dev] Benchmarks: Comparison between Python 2.7 and Python 3.6 performance](https://mail.python.org/pipermail/python-dev/2016-November/146800.html)
 - [Old Google docs](https://docs.google.com/document/d/1n0aq0Fke1nN6KIOq7vN-SbGGLUNK3Z5TUAT3TFU51hQ/edit?usp=sharing)
-
-## Hardware
-
-## Firmware
