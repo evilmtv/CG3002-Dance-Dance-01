@@ -30,7 +30,7 @@ import array
 # Declarations
 flag = 1
 debugLoops = 20
-mainLoops = 6000
+mainLoops = 6000 # Duration approx = mainLoops * 20ms
 ignoreLoopCount = 0
 loopCount = 0
 newAccID = 0
@@ -40,6 +40,20 @@ newTime = current_milli_time()
 hashcount = 0
 checkSum = 0
 errorFlag = 0
+skipCalibration = True
+calibrated = False
+x0cal = 0
+y0cal = 0
+z0cal = 0
+x1cal = 0
+y1cal = 0
+z1cal = 0
+x2cal = 0
+y2cal = 0
+z2cal = 0
+x3cal = 0
+y3cal = 0
+z3cal = 0
 
 # Declare column headers
 cols = ['ID', 'x0', 'y0', 'z0', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2', 'x3', 'y3', 'z3']
@@ -87,9 +101,26 @@ while (ignoreLoopCount < debugLoops):
     print("Loop ", ignoreLoopCount, "took:", current_milli_time()-loopTime)
 print("Average debug loop duration (ms): ", ((current_milli_time()-startTime)/10))
 
+# Calibration
+if (skipCalibration):
+    startTime = current_milli_time()
+    while (calibrated = not True):
+        # 1. read data
+        # 2. check if any value exceed limits -> WARN WORN INCORRECT -> reset to step 1
+        # 3. check if large fluctuation from any previous datas -> WARN LARGE FLUCTUATION -> reset to step 1
+        # 3b. else save data and loop until count = 200 -> take average of 200 sets of data to be calibrateCandidate1
+        # 4. ask user to move about and reset position to neutral -> give 5 seconds before starting
+        # 5. restart from 1 for calibrateCandidate2
+        # 6. check if calibrateCandidate1 is close to calibrateCandidate2, if yes, take the average and save calibration data
+
+    calibrationPD = pd.DataFrame(data=calibrationNP.reshape(-1, (len(calibrationNP))), index=['1'], columns=cols)
+    fullDF = fullDF.append(calibrationPD, ignore_index = True)
+    print("Calibration took (ms): ", (current_milli_time()-startTime))
+
+# Read (Main Loop)
 print("MAIN LOOP")
 startTime = current_milli_time()
-# Read (Main Loop)
+
 while (loopCount < mainLoops):
 
     message = ser.readline()
@@ -103,13 +134,9 @@ while (loopCount < mainLoops):
                 hashcount += 1
         if chr(checkSum) == message[len(message)-2]: # Check if checksums matches
             ser.write("\r\nA")
-            #print('Correct')
-            #print(message)
             messagenp = np.fromstring(message[0:(len(message)-2)], dtype=int, sep=",")
 
-            #print(messagenp)
             messagepd = pd.DataFrame(data=messagenp.reshape(-1, (len(messagenp))), index=['1'], columns=cols)
-            #print(messagepd)
             fullDF = fullDF.append(messagepd, ignore_index = True)
             loopCount += 1
             oldAccID = newAccID + 1
@@ -131,7 +158,7 @@ while (loopCount < mainLoops):
         #loopCount = mainLoops
         print('Resetting values to continue')
         oldAccID = newAccID
-        
+
 
     checkSum = 0
     hashcount = 0
@@ -145,8 +172,6 @@ if (errorFlag == 0):
 
 
     # Remove unneeded data
-    #fullDF = fullDF.drop(fullDF.columns[14], axis=1)
-    #fullDF = fullDF.drop(fullDF.columns[13], axis=1)
     fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
     # Save cleaned raw data to csv file
     fullDF.to_csv('recorded_data.csv', sep=',')
