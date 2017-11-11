@@ -49,6 +49,10 @@ def sendEncoded(action, voltage, current, power, cumpower):
 #Set print command to print to file
 #sys.stdout = open("OutputComb.txt", "w")
 
+# Config.ini
+reshapeBy = 40 # Set number of inputs per sample for Machine Learning
+reshapedBy = int(reshapeBy*12)
+
 #Print current time on computer
 print (str(datetime.now()))
 
@@ -187,7 +191,7 @@ while (loopCount < mainLoops):
         oneSegmentCounter = 0
 
         fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
-        fullDF = pd.DataFrame(np.reshape(fullDF.values,(1,480)),  columns=list(range(480)))
+        fullDF = pd.DataFrame(np.reshape(fullDF.values,(1,reshapedBy)),  columns=list(range(reshapedBy)))
         fullDF.to_csv('temp.csv', sep=',')
         #Sort data into columns -> For some reason can't extract class column using the better(next) method
         with open('temp.csv') as csvfile:
@@ -203,7 +207,7 @@ while (loopCount < mainLoops):
         #Sort data into a whole array and extract necessary data
         testdata = np.genfromtxt ('temp.csv', delimiter=",")
         testdata = np.delete(testdata, (0), axis=0)
-        X = testdata[:,list(range(1, 480))]
+        X = testdata[:,list(range(1, reshapedBy))]
 
         #Normalize data
         normalized_X = preprocessing.normalize(X)
