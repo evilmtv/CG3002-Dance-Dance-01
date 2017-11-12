@@ -30,6 +30,28 @@ useServer = False
 skipCalibration = True
 key = '3002300230023002'
 
+## Functions
+if (useServer):
+    def encryptData(data):
+        BLOCK_SIZE = 16
+        PADDING = ' '
+
+        pad = lambda s: s + (BLOCK_SIZE - (len(s) % BLOCK_SIZE)) * PADDING
+
+        iv = Random.new().read(AES.block_size)
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+        encoded = base64.b64encode(iv + cipher.encrypt(pad(data)))
+        #print('Encryption key: ', key)
+        print('Encrypted string: ', encoded)
+        return encoded
+
+    def sendEncoded(action, voltage, current, power, cumpower):
+        msg = '#' + str(action) + '|' + str(voltage) + '|' + str(current) + '|' + str(power) + '|' + str(cumpower)
+        client.send(encryptData(msg))
+
+#Implement simple timer
+current_milli_time = lambda: int(round(time.time() * 1000)) # current_milli_time()
+
 # Variable Declarations
 isHandshakeDone = False
 calibrated = False
@@ -61,28 +83,6 @@ fullDF = pd.DataFrame(columns=cols)
 ## Encode output variable
 le = preprocessing.LabelEncoder()
 le.fit(['Standing', 'WaveHands', 'BusDriver', 'FrontBack', 'SideStep', 'Jumping'])
-
-## Functions
-if (useServer):
-    def encryptData(data):
-        BLOCK_SIZE = 16
-        PADDING = ' '
-
-        pad = lambda s: s + (BLOCK_SIZE - (len(s) % BLOCK_SIZE)) * PADDING
-
-        iv = Random.new().read(AES.block_size)
-        cipher = AES.new(key, AES.MODE_CBC, iv)
-        encoded = base64.b64encode(iv + cipher.encrypt(pad(data)))
-        #print('Encryption key: ', key)
-        print('Encrypted string: ', encoded)
-        return encoded
-
-    def sendEncoded(action, voltage, current, power, cumpower):
-        msg = '#' + str(action) + '|' + str(voltage) + '|' + str(current) + '|' + str(power) + '|' + str(cumpower)
-        client.send(encryptData(msg))
-
-#Implement simple timer
-current_milli_time = lambda: int(round(time.time() * 1000)) # current_milli_time()
 
 #Load Models
 knn_model = joblib.load('model_knn.pkl')
@@ -147,7 +147,7 @@ if (skipCalibration == False):
         # 5. restart from 1 for calibrateCandidate2
         # 6. check if calibrateCandidate1 is close to calibrateCandidate2, if yes, take the average and save calibration data
 
-    calibrationPD = pd.DataFrame(data=calibrationNP.reshape(-1, (len(calibrationNP))), index=['1'], columns=cols)
+        calibrationPD = pd.DataFrame(data=calibrationNP.reshape(-1, (len(calibrationNP))), index=['1'], columns=cols)
     fullDF = fullDF.append(calibrationPD, ignore_index = True)
     print("Calibration took (ms): ", (current_milli_time()-startTime))
 
