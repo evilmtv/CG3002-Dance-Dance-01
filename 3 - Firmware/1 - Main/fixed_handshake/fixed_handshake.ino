@@ -102,7 +102,7 @@ void TaskR(void *pvParameters)
         z3 = analogRead(zpin3);
 
         //Convert float to int
-
+        Serial.println("Read");
         xQueueSendToBack(xQueue0, &x0, 0);
         xQueueSendToBack(xQueue0, &y0, 0);
         xQueueSendToBack(xQueue0, &z0, 0);
@@ -116,11 +116,11 @@ void TaskR(void *pvParameters)
         xQueueSendToBack(xQueue0, &y3, 0);
         xQueueSendToBack(xQueue0, &z3, 0);
 
+        vTaskDelayUntil(&prevWakeTimeRead, (4/portTICK_PERIOD_MS ));
         xSemaphoreGive(xMutexSemaphore);
       }
     }
   }
-  vTaskDelayUntil(&prevWakeTimeSend, 20);
 }
 
 void Accel0(void *pvParameters)
@@ -140,12 +140,15 @@ void Accel0(void *pvParameters)
   while (1)
   {
     if (xSemaphoreTake(xMutexSemaphore, 0)) {
-      if (Serial.available()) {
+      if (Serial.available() > 0) {
         readByte = Serial.read();
       }
       if (readByte == 'A') {
         sendFlag = 0;
         counter = 0;
+        xSemaphoreGive(xBinarySemaphore);
+        xSemaphoreGive(xMutexSemaphore);
+        vTaskDelayUntil(&prevWakeTimeSend, (1/portTICK_PERIOD_MS ));
         xQueueReceive(xQueue0, &x0Rx, 0);
         xQueueReceive(xQueue0, &y0Rx, 0);
         xQueueReceive(xQueue0, &z0Rx, 0);
@@ -211,6 +214,7 @@ void Accel0(void *pvParameters)
         for (int i = 0; i < len; i++) {
           checkSum ^= messageStr[i];
         }
+        Serial.println("Send");
         messageStr[len] = checkSum;
         messageStr[len + 1] = '\n';
         for (int j = 0; j < len + 2; j++) {
@@ -222,17 +226,16 @@ void Accel0(void *pvParameters)
         readByte = 0;
         checkSum = 0;
         counter = 0;
-
-        xSemaphoreGive(xBinarySemaphore);
-        xSemaphoreGive(xMutexSemaphore);
       }
       else if (readByte == 'R') {
         //Resend message
         for (int k = 0; k < len + 2; k++) {
           Serial.write(messageStr[k]);
         }
+        sendFlag = 1;
         readByte = 0;
         counter = 0;
+        vTaskDelayUntil(&prevWakeTimeSend, (2/portTICK_PERIOD_MS ));
         xSemaphoreGive(xMutexSemaphore);
       }
 
@@ -242,28 +245,35 @@ void Accel0(void *pvParameters)
         readByte = 0;
         checkSum = 0;
         counter = 0;      
-        establishContact();        
+        establishContact();  
+        vTaskDelayUntil(&prevWakeTimeSend, (2/portTICK_PERIOD_MS ));      
         xSemaphoreGive(xBinarySemaphore);
         xSemaphoreGive(xMutexSemaphore);
       }
       else {
-        if (sendFlag)
-        {
-          counter++;
-          if (counter == 30000)
-          {
-            //Resend message
-            for (int m = 0; m < len + 2; m++) {
-              Serial.write(messageStr[m]);
-            }
-            counter = 0;
-          }
-        }
+        vTaskDelayUntil(&prevWakeTimeSend, (2/portTICK_PERIOD_MS ));
         xSemaphoreGive(xMutexSemaphore);
-      }
+        }
+//      else {
+//        if (sendFlag)
+//        {
+//          readByte = 0;
+//          counter++;
+//          if (counter == 30000)
+//          {
+//            //Resend message
+//            for (int m = 0; m < len + 2; m++) {
+//              Serial.write(messageStr[m]);
+//            }
+//            counter = 0;
+//          }
+//        }
+//        vTaskDelayUntil(&prevWakeTimeSend, (2/portTICK_PERIOD_MS ));
+//        xSemaphoreGive(xMutexSemaphore);
+//      }
     }
   }
-  vTaskDelayUntil(&prevWakeTimeSend, 20);
+
 }
 
 
@@ -283,7 +293,6 @@ void establishContact() {
 
   while (flag1 == 0) {
     Serial.write('A');   // send a capital A
-    
     if (Serial.available())
     {
       if (Serial.read() == 'A')
@@ -291,7 +300,9 @@ void establishContact() {
         flag1 = 1;
       }
     }
+    delay(10);
   }
+  Serial.write('\n');
   readByte = 'A';
 }
 
