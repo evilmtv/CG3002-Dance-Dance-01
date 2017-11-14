@@ -53,7 +53,7 @@ void TaskMain(void *pvParameters)
   char frameNumChar[4];
   unsigned int len;
   char checkSum = 0;
-  unsigned int checkSum2;
+  int checkSum2;
   char finalCheckSum[4];
 
   prevWakeTimeMain = xTaskGetTickCount();
@@ -85,12 +85,11 @@ void TaskMain(void *pvParameters)
 
       // readAmp(); addAmpToMessage();
       //amp = analogRead(amppin);
-      amp = 6;
+      amp = 69;
       //sensorValue = ((float) amp * 5)/1023; // Declare sensorValue and current as float
       //current = sensorValue / (10/10.1);
       itoa(amp, ampChar, 10);
       strcat(messageStr, ampChar);
-      strcat(messageStr, ",");
 
       // addCheckSum();
       len = strlen(messageStr);
@@ -99,6 +98,10 @@ void TaskMain(void *pvParameters)
       }
       checkSum2 = (int)checkSum;
       itoa(checkSum2, finalCheckSum, 10);
+      Serial.println(checkSum);
+      Serial.println(checkSum2);
+      Serial.println(finalCheckSum);
+      strcat(messageStr, ","); // exclude last ',' from checksum
       strcat(messageStr, finalCheckSum);
 
       //Send message
