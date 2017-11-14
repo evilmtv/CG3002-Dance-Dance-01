@@ -53,6 +53,7 @@ void TaskMain(void *pvParameters)
   char frameNumChar[4];
   unsigned int len;
   char checkSum = 0;
+  int finalCheckSum = 0;
 
   prevWakeTimeMain = xTaskGetTickCount();
 
@@ -87,7 +88,8 @@ void TaskMain(void *pvParameters)
       for (int i = 0; i < len; i++) {
         checkSum ^= messageStr[i];
       }
-      messageStr[len] = checkSum;
+      finalCheckSum = (int)checkSum;
+      messageStr[len] = finalCheckSum;
       messageStr[len+1] = '\n';
 
       //Send message
@@ -100,6 +102,7 @@ void TaskMain(void *pvParameters)
       // Reset variables
       readByte = 0;
       checkSum = 0;
+      finalCheckSum = 0;
     }
     else if (readByte == 'R') {
       //Resend message
@@ -111,6 +114,7 @@ void TaskMain(void *pvParameters)
       readByte = 0;
       frameNum = 0;
       checkSum = 0;
+      finalCheckSum = 0;
       len = 0;
       establishContact();
     }
