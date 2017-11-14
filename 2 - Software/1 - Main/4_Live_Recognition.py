@@ -54,7 +54,7 @@ current_milli_time = lambda: int(round(time.time() * 1000)) # current_milli_time
 # Variable Declarations
 isHandshakeDone = False
 calibrated = False
-debugLoops = 200
+debugLoops = 50
 mainLoops = 6000
 ignoreLoopCount = 0
 loopCount = 0
@@ -114,17 +114,13 @@ if (useServer):
 while (isHandshakeDone == False):
         print("Connecting to Raspberry Pi")
         ser = serial.Serial(arduinoPort, baudrate=115200, timeout=3.0)
-        ser.write(handshake)
-        time.sleep(0.2)
-        ser.write(handshake)
-        time.sleep(0.2)
         sys.stdout.write("\033[F") # Cursor up one line
         sys.stdout.write("\033[K") # Clear line
         print ("Raspberry Pi Connected")
         ser.write(handshake)
         print("H sent, awaiting response")
-        response = ser.read()
-        if response == (("A").encode()):
+        response = ser.read().decode()
+        if response == ('A'):
             print("Response verified, handshake complete")
             isHandshakeDone = True
             ser.write(acknoledged)
@@ -144,6 +140,7 @@ while (isHandshakeDone == False):
             sys.stdout.write("\033[F") # Cursor up one line
             sys.stdout.write("\033[K") # Clear line
             print ("Begin")
+            ser.write(acknoledged)
         else:
             ser.write(handshake)
             print(response)
@@ -173,10 +170,12 @@ while (ignoreLoopCount < debugLoops):
     if (current_milli_time() > (loopTime+0)):
         loopTime = current_milli_time()
         message = ser.readline()
+        loopEndTime = current_milli_time()
         byteMessage = array.array('b', message)
         message = message.decode()
         while hashcount < (len(byteMessage)-2): # Produce checksum from received data
             checkSum ^= int(byteMessage[hashcount])
+            #print(checkSum)
             hashcount += 1
         if chr(checkSum) == message[len(message)-2]: #Check if checksums matches
             print('Checksum matches. Message:', message)
@@ -185,14 +184,17 @@ while (ignoreLoopCount < debugLoops):
         else: # Checksums do not match
             print('Checksums do not match!')
             print("Message:", message)
+            print("msg chksum:", message[len(message)-2])
             print("Checksum: \"", chr(checkSum), "\"")
-            ser.write(resend) # Send request for resend of data to Arduino
+            ser.write(acknoledged) # Send request for resend of data to Arduino
         ignoreLoopCount += 1
         checkSum = 0
         hashcount = 0
-        print("Loop ", ignoreLoopCount, "took:", current_milli_time()-loopTime)
+        print("Loop ", ignoreLoopCount, "took:", loopEndTime-loopTime)
 print("Average debug loop duration (ms): ", ((current_milli_time()-startTime)/debugLoops))
 oldAccID = int(message.split(',')[0]) + 1
+
+time.sleep(5)
 
 # Read (Main Loop)
 print(' ')
@@ -202,7 +204,7 @@ startTime = current_milli_time()
 loopTime = current_milli_time()
 
 while (loopCount < mainLoops):
-    if (current_milli_time() > (startTime+0)):
+    if (current_milli_time() > (startTime+18)):
         startTime = current_milli_time()
         loopCount += 1
         messageB = ser.readline()
