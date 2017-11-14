@@ -32,6 +32,9 @@
         - Follow instructions
         - `conda update --all` to update from Python 3.6.2 to Python 3.6.3 [Source](https://anaconda.org/anaconda/python)
         - `conda install -c anaconda pyserial`
+        - `conda install pandas` to install numpy and pandas
+        - `conda install scikit-learn`
+        - `conda install pycrypto`
     2. Python 3.5.3-1
         - `apt-get install python3-pandas`
         - `sudo apt-get install python3-pip` [Source](https://www.raspberrypi.org/documentation/linux/software/python.md)
@@ -50,6 +53,31 @@
             - `sudo pip install jupyter geopandas osmnx`
 4. To run Python programs
     - First change directory to where program is located i.e. `cd Desktop`
+    ```python
+    pi@raspberrypi:~ $ python2
+    Python 2.7.13 (default, Jan 19 2017, 14:48:08) 
+    [GCC 6.3.0 20170124] on linux2
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> 
+    [1]+  Stopped                 python2
+    pi@raspberrypi:~ $ python3.5
+    Python 3.5.3 (default, Jan 19 2017, 14:11:04) 
+    [GCC 6.3.0 20170124] on linux
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> 
+    [2]+  Stopped                 python3.5
+    pi@raspberrypi:~ $ python3.6
+    Python 3.6.3 | packaged by rpi | (default, Oct  6 2017, 12:22:32) 
+    [GCC 4.9.2] on linux
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> 
+    [3]+  Stopped                 python3.6
+    pi@raspberrypi:~ $ python
+    Python 3.6.3 | packaged by rpi | (default, Oct  6 2017, 12:22:32) 
+    [GCC 4.9.2] on linux
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> 
+    ``` 
     1. Python 3.6.3
         - `python filename.py`
         - or `python3 filename.py`
@@ -61,6 +89,10 @@
         - `python filename.py` (if Python 3.6.3 not installed)
         - or `python2 filename.py`
         - or `python2.7 filename.py`
+        - Notes:
+          - In `joblib.dump()`, change parameter `protocol=2` i.e.
+          ```python
+          joblib.dump(rf_model, 'model_rf.pkl', protocol=2)
 
 #### Useful Stuffs
 - Check ip address
