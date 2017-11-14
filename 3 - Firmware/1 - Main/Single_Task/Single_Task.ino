@@ -11,8 +11,8 @@ void createMessage();
 
 // Variable Declarations
 TickType_t prevWakeTimeMain;
-int x0, y0, z0, x1, y1, z1, x2, y2, z2, x3, y3, z3, pwr;
-char x0Char[4], y0Char[4], z0Char[4], x1Char[4], y1Char[4], z1Char[4], x2Char[4], y2Char[4], z2Char[4], x3Char[4], y3Char[4], z3Char[4], pwrChar[4];
+int x0, y0, z0, x1, y1, z1, x2, y2, z2, x3, y3, z3, volt, amp;
+char x0Char[4], y0Char[4], z0Char[4], x1Char[4], y1Char[4], z1Char[4], x2Char[4], y2Char[4], z2Char[4], x3Char[4], y3Char[4], z3Char[4], voltChar[4], ampChar[4];
 char messageStr[2500];
 
 const int xpin0 = A0;
@@ -31,7 +31,7 @@ const int xpin3 = A13;
 const int ypin3 = A14;
 const int zpin3 = A15;
 
-const int pwrpin = A4;
+const int amppin = A4;
 
 // the setup function runs once when you press reset or power the board
 void setup() {
@@ -53,7 +53,8 @@ void TaskMain(void *pvParameters)
   char frameNumChar[4];
   unsigned int len;
   char checkSum = 0;
-  int finalCheckSum = 0;
+  unsigned int checkSum2;
+  char finalCheckSum[4];
 
   prevWakeTimeMain = xTaskGetTickCount();
 
@@ -75,24 +76,33 @@ void TaskMain(void *pvParameters)
         vTaskDelayUntil(&prevWakeTimeMain, (4 / portTICK_PERIOD_MS)); // Ensure one set read every 4ms
       }
 
-      // readPower(); addPowerToMessage();
-      pwr = analogRead(pwrpin);
-      //sensorValue = ((float) pwr * 5)/1023; // Declare sensorValue and current as float
-      //current = sensorValue / (10/10.1);
-      itoa(pwr, pwrChar, 10);
-      strcat(messageStr, pwrChar);
+      // readVolt(); addVoltToMessage();
+      //volt = analogRead(voltpin);
+      volt = 5;
+      itoa(volt, voltChar, 10);
+      strcat(messageStr, voltChar);
       strcat(messageStr, ",");
 
-      len = strlen(messageStr);
+      // readAmp(); addAmpToMessage();
+      //amp = analogRead(amppin);
+      amp = 6;
+      //sensorValue = ((float) amp * 5)/1023; // Declare sensorValue and current as float
+      //current = sensorValue / (10/10.1);
+      itoa(amp, ampChar, 10);
+      strcat(messageStr, ampChar);
+      strcat(messageStr, ",");
 
+      // addCheckSum();
+      len = strlen(messageStr);
       for (int i = 0; i < len; i++) {
         checkSum ^= messageStr[i];
       }
-      finalCheckSum = (int)checkSum;
-      messageStr[len] = finalCheckSum;
-      messageStr[len+1] = '\n';
+      checkSum2 = (int)checkSum;
+      itoa(checkSum2, finalCheckSum, 10);
+      strcat(messageStr, finalCheckSum);
 
       //Send message
+      Serial.write('\n');
       for (int j = 0; j < len + 2; j++) {
         Serial.write(messageStr[j]);
       }
@@ -102,7 +112,6 @@ void TaskMain(void *pvParameters)
       // Reset variables
       readByte = 0;
       checkSum = 0;
-      finalCheckSum = 0;
     }
     else if (readByte == 'R') {
       //Resend message
@@ -114,7 +123,6 @@ void TaskMain(void *pvParameters)
       readByte = 0;
       frameNum = 0;
       checkSum = 0;
-      finalCheckSum = 0;
       len = 0;
       establishContact();
     }
@@ -142,7 +150,6 @@ void establishContact() {
       Serial.write('A');
     }
   }
-  Serial.write('\n');   // send a capital A
 }
 
 void readSensors() {
