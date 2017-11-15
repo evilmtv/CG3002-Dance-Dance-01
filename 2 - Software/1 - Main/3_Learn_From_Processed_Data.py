@@ -45,7 +45,8 @@ with open('processed_data.csv') as csvfile:
 #Sort data into a whole array and extract necessary data
 testdata = np.genfromtxt ('processed_data.csv', delimiter=",")
 testdata = np.delete(testdata, (0), axis=0)
-X = testdata[:,list(range(1, reshapeBy*12))]
+X = testdata[:, 1:(reshapeBy*12)+1]
+
 
 
 #Data pre-processing
