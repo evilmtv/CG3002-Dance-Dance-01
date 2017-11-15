@@ -11,4 +11,4 @@ X = np.array(['Jumping', 'Jumping', 'loling', 'Jumping', 'asd'])
 
  
 print(stats.mode(list2)[0][0])
-print(range(1, 4))
+print(list(range(0, (12*40)+1)))

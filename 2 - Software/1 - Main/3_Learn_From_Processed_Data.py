@@ -54,7 +54,7 @@ from sklearn import preprocessing
 
 ##Encode output variable
 le = preprocessing.LabelEncoder()
-le.fit(['Standing', 'WaveHands', 'BusDriver', 'FrontBack', 'SideStep', 'Jumping'])
+le.fit(['standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360', 'ultra'])
 #print(list(le.classes_))
 y = []
 y = le.transform(column[str(reshapeBy*12)])

@@ -26,8 +26,8 @@ print("Initalizing")
 
 # Config.ini
 reshapeBy = 40 # Set number of inputs per sample for Machine Learning
-#arduinoPort = "/dev/ttyACM0"
-arduinoPort = "COM3"
+arduinoPort = "/dev/ttyACM0"
+#arduinoPort = "COM3"
 useServer = False
 skipCalibration = True
 key = '3002300230023002'
@@ -85,7 +85,7 @@ reshapedBy = int(reshapeBy*12)
 
 ## Encode output variable
 le = preprocessing.LabelEncoder()
-le.fit(['standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360'])
+le.fit(['standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360', 'ultra'])
 
 #Load Models
 knn_model = joblib.load('model_knn.pkl')
@@ -243,8 +243,7 @@ while (loopCount < mainLoops):
                 checkSum ^= int(byteMessage[hashcount])
                 hashcount += 1
 
-            #if (checkSum == msgCheckSum): #Check if checksums matches
-            if (1):
+            if (checkSum == msgCheckSum): #Check if checksums matches
                 message = message.rsplit(',', 2)[0] # Remove volt and amp from message
                 message = message.split(',', 1)[1] # Remove ID from message
                 messagenp = np.fromstring(message[0:(len(message))], dtype=int, sep=",")
