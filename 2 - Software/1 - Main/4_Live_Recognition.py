@@ -11,6 +11,7 @@ import socket
 import pandas as pd
 import numpy as np
 import csv
+from scipy.stats import mode
 from sklearn import preprocessing
 from sklearn.externals import joblib
 import serial
@@ -25,7 +26,8 @@ print("Initalizing")
 
 # Config.ini
 reshapeBy = 40 # Set number of inputs per sample for Machine Learning
-arduinoPort = "/dev/ttyACM0"
+#arduinoPort = "/dev/ttyACM0"
+arduinoPort = "COM3"
 useServer = False
 skipCalibration = True
 key = '3002300230023002'
@@ -54,7 +56,8 @@ current_milli_time = lambda: int(round(time.time() * 1000)) # current_milli_time
 # Variable Declarations
 isHandshakeDone = False
 calibrated = False
-debugLoops = 50
+debugLoops = 10
+debugFailCount = 0
 mainLoops = 6000
 ignoreLoopCount = 0
 loopCount = 0
@@ -62,12 +65,15 @@ successCount = 0
 checkSumFailCount = 0
 IDFailCount = 0
 newAccID = 0
-oldAccID = debugLoops
+oldAccID = 0
 oldTime = current_milli_time()
 newTime = current_milli_time()
 hashcount = 0
+msgCheckSum = 0
 checkSum = 0
 errorFlag = 0
+resultBuffer =["standing", "standing", "standing", "standing", "standing"]
+#resultBuffer2
 
 # Static Declarations
 handshake = ("\r\nH").encode()
@@ -76,13 +82,10 @@ clear = ("\r\nAAAAAAAAAA").encode()
 resend = ("\r\nR").encode()
 reshapedBy = int(reshapeBy*12)
 
-# Declare column headers
-cols = ['ID', 'x0', 'y0', 'z0', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2', 'x3', 'y3', 'z3']
-fullDF = pd.DataFrame(columns=cols)
 
 ## Encode output variable
 le = preprocessing.LabelEncoder()
-le.fit(['Standing', 'WaveHands', 'BusDriver', 'FrontBack', 'SideStep', 'Jumping'])
+le.fit(['standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360'])
 
 #Load Models
 knn_model = joblib.load('model_knn.pkl')
@@ -111,12 +114,12 @@ if (useServer):
     #time.sleep(0.5)
 
 # Initialize Arduino connection and perform handshake
+print("Connecting to Raspberry Pi")
+ser = serial.Serial(arduinoPort, baudrate=115200, timeout=3.0)
+sys.stdout.write("\033[F") # Cursor up one line
+sys.stdout.write("\033[K") # Clear line
+print ("Raspberry Pi Connected")
 while (isHandshakeDone == False):
-        print("Connecting to Raspberry Pi")
-        ser = serial.Serial(arduinoPort, baudrate=115200, timeout=3.0)
-        sys.stdout.write("\033[F") # Cursor up one line
-        sys.stdout.write("\033[K") # Clear line
-        print ("Raspberry Pi Connected")
         ser.write(handshake)
         print("H sent, awaiting response")
         response = ser.read().decode()
@@ -157,10 +160,7 @@ if (skipCalibration == False):
         # 4. ask user to move about and reset position to neutral -> give 5 seconds before starting
         # 5. restart from 1 for calibrateCandidate2
         # 6. check if calibrateCandidate1 is close to calibrateCandidate2, if yes, take the average and save calibration data
-
-        calibrationPD = pd.DataFrame(data=calibrationNP.reshape(-1, (len(calibrationNP))), index=['1'], columns=cols)
-    fullDF = fullDF.append(calibrationPD, ignore_index = True)
-    print("Calibration took (ms): ", (current_milli_time()-startTime))
+        print("Calibration took (ms): ", (current_milli_time()-startTime))
 
 # Ignore early readings
 print("Begin System Test")
@@ -168,31 +168,49 @@ startTime = current_milli_time()
 loopTime = current_milli_time()
 while (ignoreLoopCount < debugLoops):
     if (current_milli_time() > (loopTime+0)):
-        loopTime = current_milli_time()
-        message = ser.readline()
-        loopEndTime = current_milli_time()
-        byteMessage = array.array('b', message)
-        message = message.decode()
-        while hashcount < (len(byteMessage)-2): # Produce checksum from received data
-            checkSum ^= int(byteMessage[hashcount])
-            #print(checkSum)
-            hashcount += 1
-        if chr(checkSum) == message[len(message)-2]: #Check if checksums matches
-            print('Checksum matches. Message:', message)
-            ser.write(acknoledged)
-            # Store data into buffer
-        else: # Checksums do not match
-            print('Checksums do not match!')
+        loopTime = readTime = current_milli_time()
+        message = ser.readline() # Read message from Arduino
+        readEndTime = current_milli_time()
+
+        ser.write(acknoledged) # Instruct Arduino to prepare next set of data
+
+        message = message.decode() # Convert to string to manipulate data
+        newAccID = int(message.split(',', 1)[0]) # Extract message ID
+        msgCheckSum = int((message.rsplit(',', 1)[1])[:-2]) # Extract message checksum
+        message = message.rsplit(',', 1)[0] # Remove checksum from message
+        byteMessage = array.array('b', message.encode()) # Convert back to byteMessage to generate hash
+
+        if (newAccID == (oldAccID + 1)): # Check if ID Incremented
+            oldAccID = newAccID
+            while (hashcount < len(byteMessage)): # Produce checksum from received data
+                checkSum ^= int(byteMessage[hashcount])
+                hashcount += 1
+
+            if (checkSum == msgCheckSum): #Check if checksums matches
+                print('Checksum matches')
+            else: # Checksums do not match
+                debugFailCount += 1
+                print('Checksums error!', "Message Checksum:", msgCheckSum, "Generated Checksum:", checkSum)
+                print("Message:", message)
+                print(' ')
+
+        elif (newAccID == oldAccID):
+            debugFailCount += 1
+            print('Same message received!')
+            print(' ')
+        else:
+            debugFailCount += 1
+            print('ID error!', 'oldAccID:', oldAccID, 'newAccID:', newAccID)
             print("Message:", message)
-            print("msg chksum:", message[len(message)-2])
-            print("Checksum: \"", chr(checkSum), "\"")
-            ser.write(acknoledged) # Send request for resend of data to Arduino
+            print(' ')
+
         ignoreLoopCount += 1
         checkSum = 0
         hashcount = 0
-        print("Loop ", ignoreLoopCount, "took:", loopEndTime-loopTime)
-print("Average debug loop duration (ms): ", ((current_milli_time()-startTime)/debugLoops))
-oldAccID = int(message.split(',')[0]) + 1
+        oldAccID = newAccID
+        print("In debug loop:", ignoreLoopCount, "Reading took:", readEndTime-readTime, "ms", "Others took:", current_milli_time()-loopEndTime)
+
+print("Average debug loop duration (ms): ", ((current_milli_time()-startTime)/debugLoops), "with", debugFailCount, "errors")
 
 time.sleep(5)
 
@@ -204,130 +222,79 @@ startTime = current_milli_time()
 loopTime = current_milli_time()
 
 while (loopCount < mainLoops):
-    if (current_milli_time() > (startTime+18)):
+    if (current_milli_time() > (startTime+0)):
         startTime = current_milli_time()
         loopCount += 1
-        messageB = ser.readline()
-        message = messageB.decode()
-        newAccID = int(message.split(',')[0])
-        ser.write(acknoledged)
 
-        if (newAccID == oldAccID): # Check if ID incremented
-            byteMessage = array.array('b', messageB)
+        message = ser.readline() # Read message from Arduino
+        ser.write(acknoledged) # Instruct Arduino to prepare next set of data
 
-            while hashcount < (len(byteMessage)-2): # Produce checksum from received data
-                    checkSum ^= int(byteMessage[hashcount])
-                    hashcount += 1
 
-            if chr(checkSum) == message[len(message)-2]: # Check if checksums matches
-                messagenp = np.fromstring(message[0:(len(message)-2)], dtype=int, sep=",")
-                messagepd = pd.DataFrame(data=messagenp.reshape(-1, (len(messagenp))), index=['1'], columns=cols)
-                fullDF = fullDF.append(messagepd, ignore_index = True)
+        message = message.decode() # Convert to string to manipulate data
+        newAccID = int(message.split(',', 1)[0]) # Extract message ID
+        volt = int(message.rsplit(',', 3)[1])
+        amp = int(message.rsplit(',', 2)[1])
+        msgCheckSum = int((message.rsplit(',', 1)[1])[:-2]) # Extract message checksum
+        message = message.rsplit(',', 1)[0] # Remove checksum from message
+        byteMessage = array.array('b', message.encode()) # Convert back to byteMessage to generate hash
+
+        if (newAccID == (oldAccID + 1)): # Check if ID Incremented
+            while (hashcount < len(byteMessage)): # Produce checksum from received data
+                checkSum ^= int(byteMessage[hashcount])
+                hashcount += 1
+
+            #if (checkSum == msgCheckSum): #Check if checksums matches
+            if (1):
+                message = message.rsplit(',', 2)[0] # Remove volt and amp from message
+                message = message.split(',', 1)[1] # Remove ID from message
+                messagenp = np.fromstring(message[0:(len(message))], dtype=int, sep=",")
+                messagenp = messagenp.reshape(1,-1)
+
+                #Normalize data
+                normalized_X = preprocessing.normalize(messagenp)
+                print(normalized_X.shape)
+
+                #Get Result
+                result = le.inverse_transform(knn_model.predict(normalized_X))
+                print(result)
+                resultBuffer[successCount%5] = result
                 successCount += 1
-                oldAccID = newAccID + 1
 
             else: # Checksums do not match
                 #ser.write(acknoledged) # Send request for resend of data from Arduino
                 checkSumFailCount += 1
                 errorFlag = True
-                print(' ')
-                print('Checksums do not match!')
-                print("Recieved message:", message)
-                sys.stdout.write("\033[F") # Cursor up one line
-                print("Produced checksum:", chr(checkSum))
+                print('Checksums error!', "Message Checksum:", msgCheckSum, "Generated Checksum:", checkSum)
+                print("Message:", message)
                 print(' ')
 
-        else : # Unexpected/corrupt ID recieved
-            #ser.write(acknoledged) # Send request for resend of data from Arduino
+        elif (newAccID == oldAccID): # Repeated message recieved
             IDFailCount += 1
             errorFlag = True
+            print('ID error!', 'Same message received!')
             print(' ')
-            print('ID MISMATCH')
-            print('At Loop:', loopCount)
-            print('Message:', message)
-            sys.stdout.write("\033[F") # Cursor up one line
-            print('oldAccID:', oldAccID)
-            print('newAccID:', newAccID)
+        else: # Unexpected/corrupt ID recieved
+            IDFailCount += 1
+            errorFlag = True
+            print('ID error!', 'oldAccID:', oldAccID, 'newAccID:', newAccID)
+            print("Message:", message)
             print(' ')
 
         # Reset values
+        oldAccID = newAccID
         checkSum = 0
         hashcount = 0
 
-        # Discard previous data
-        if (errorFlag):
-             print("Resolving error")
-             errorFlag = False
-             time.sleep(0.1)
-             message = ser.readline().decode()
-             print('MessageFix1:', message)
-             sys.stdout.write("\033[F") # Cursor up one line
-             time.sleep(0.1)
-             message = ser.readline().decode()
-             print('MessageFix2:', message)
-             sys.stdout.write("\033[F") # Cursor up one line
-             time.sleep(0.1)
-             message = ser.readline().decode()
-             print('MessageFix3:', message)
-             sys.stdout.write("\033[F") # Cursor up one line
-             message = ser.readline().decode()
-             print('MessageFix4:', message)
-             sys.stdout.write("\033[F") # Cursor up one line
-             print(' ')
-             oldAccID = int(message.split(',')[0])
-             successCount = 0
-             #Clear and reset variable
-             del fullDF
-             fullDF = pd.DataFrame(columns=cols)
-             loopTime = current_milli_time()
-             
         # Show user number of loops
-        if (loopCount%500 == 0):
-            print('Consecutive Successes:', successCount, '| ID errors:', IDFailCount,'| Checksum errors:', checkSumFailCount)
+        if (loopCount%10 == 0):
+            print('Successes:', successCount, '| ID errors:', IDFailCount,'| Checksum errors:', checkSumFailCount)
 
-        # When number of consecutive successful readings reaches reshapeBy
-        if ((successCount > 0) & (successCount%reshapeBy == 0)):
-            loopEndTime = current_milli_time()
-            processingStartTime = current_milli_time()
-            fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
-            fullDF = pd.DataFrame(np.reshape(fullDF.values,(1,reshapedBy)),  columns=list(range(reshapedBy)))
-            fullDF.to_csv('temp.csv', sep=',')
-
-            #Sort data into columns -> For some reason can't extract class column using the better(next) method
-            with open('temp.csv') as csvfile:
-                reader=csv.reader(csvfile,delimiter=',')
-                headers = next(reader)
-                column = {}
-                for h in headers:
-                    column[h] = []
-                for row in reader:
-                    for h, v in zip(headers, row):
-                        column[h].append(v)
-
-            #Sort data into a whole array and extract necessary data
-            testdata = np.genfromtxt ('temp.csv', delimiter=",")
-            testdata = np.delete(testdata, (0), axis=0)
-            X = testdata[:,list(range(1, reshapedBy))]
-
-            #Normalize data
-            normalized_X = preprocessing.normalize(X)
-
-            #Get Result
-            result = le.inverse_transform(knn_model.predict(normalized_X))
-            
+        # When number of consecutive successful readings reaches 5
+        if ((successCount > 0) & (successCount%5 == 0)):
             #Send and print data in readable format
+            bestAnswer = mode(resultBuffer)[0][0]
             if (useServer):
-                sendEncoded(result, 1, 2, 3, 4)
-            print('RF:', result, '| Average reading time:', (loopEndTime-loopTime)/reshapeBy, 'ms','| Processing time:', current_milli_time()-processingStartTime, 'ms')
-            
-            #Clear and reset variable
-            del fullDF
-            fullDF = pd.DataFrame(columns=cols)
-            loopTime = current_milli_time()
+                sendEncoded(bestAnswer, 1, 2, 3, 4)
+            print('Results:', resultBuffer, 'Best Answer:', bestAnswer, '| Average reading time:', 'EMPTY', 'ms','| Processing time:', 'EMPTY', 'ms')
 
-
-# Remove unneeded data
-fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
-
-# Save cleaned raw data to csv file
-fullDF.to_csv('recorded_data.csv', sep=',')
+            loopTime = current_milli_time() # Reset loopTime

@@ -69,7 +69,7 @@ ser = serial.Serial(arduinoPort, baudrate=115200, timeout=3.0)
 sys.stdout.write("\033[F") # Cursor up one line
 sys.stdout.write("\033[K") # Clear line
 print ("Raspberry Pi Connected")
-        
+
 while (isHandshakeDone == False):
         ser.write(handshake)
         print("H sent, awaiting response")
@@ -109,10 +109,10 @@ while (ignoreLoopCount < debugLoops):
     if (current_milli_time() > (startTime+0)):
             startTime = current_milli_time()
             loopCount += 1
-    
+
             message = ser.readline() # Read message from Arduino
             ser.write(acknoledged) # Instruct Arduino to prepare next set of data
-    
+
             message = message.decode() # Convert to string to manipulate data
             print(' ')
             print(' ')
@@ -125,27 +125,26 @@ while (ignoreLoopCount < debugLoops):
             msgCheckSum = int(message.rsplit(',',1)[1]) # Extract message checksum
             message = message.rsplit(',', 1)[0] # Remove checksum from message
             byteMessage = array.array('b', message.encode()) # Convert back to byteMessage to generate hash
-    
+
             if (newAccID == (oldAccID + 1)): # Check if ID Incremented
-                oldAccID = newAccID
                 while (hashcount < len(byteMessage)): # Produce checksum from received data
                     checkSum ^= int(byteMessage[hashcount])
-                    hashcount += 1  
-    
+                    hashcount += 1
+
                 if (checkSum == msgCheckSum): #Check if checksums matches
                     message = message.rsplit(',', 2)[0] # Remove volt and amp from message
                     message = message.split(',', 1)[1] # Remove ID from message
                     messagenp = np.fromstring(message[0:(len(message))], dtype=int, sep=",")
-                    X = messagenp
-    
+                    messagenp = messagenp.reshape(1,-1)
+
                     #Normalize data
-                    normalized_X = preprocessing.normalize(X)
-    
+                    normalized_X = preprocessing.normalize(messagenp)
+
                     #Get Result
                     #result = le.inverse_transform(knn_model.predict(normalized_X))
                     #print(result)
                     successCount += 1
-    
+
                 else: # Checksums do not match
                     #ser.write(acknoledged) # Send request for resend of data from Arduino
                     checkSumFailCount += 1
@@ -153,7 +152,7 @@ while (ignoreLoopCount < debugLoops):
                     print('Checksums error!', "Message Checksum:", msgCheckSum, "Generated Checksum:", checkSum)
                     print("Message:", message)
                     print(' ')
-    
+
             elif (newAccID == oldAccID): # Repeated message recieved
                 IDFailCount += 1
                 errorFlag = True
@@ -165,7 +164,8 @@ while (ignoreLoopCount < debugLoops):
                 print('ID error!', 'oldAccID:', oldAccID, 'newAccID:', newAccID)
                 print("Message:", message)
                 print(' ')
-    
+
             # Reset values
+            oldAccID = newAccID
             checkSum = 0
             hashcount = 0
