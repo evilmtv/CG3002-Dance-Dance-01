@@ -30,7 +30,7 @@
         - `sudo chmod +x Berryconda3-2.0.0-Linux-armv7l.sh` [Source](http://www.circuitbasics.com/how-to-write-and-run-a-shell-script-on-the-raspberry-pi/)
         - Double click file on desktop and `Execute in Terminal`
         - Follow instructions
-        - `conda update --all` to update from Python 3.6.2 to Python 3.6.3 [Source](https://anaconda.org/anaconda/python)
+        - `conda update --all` to update from Python 3.6.1 to Python 3.6.3 [Source](https://anaconda.org/anaconda/python)
         - `conda install -c anaconda pyserial`
         - `conda install pandas` to install numpy and pandas
         - `conda install scikit-learn`
