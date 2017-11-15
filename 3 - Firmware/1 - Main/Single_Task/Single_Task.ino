@@ -49,7 +49,7 @@ void loop()
 void TaskMain(void *pvParameters)
 {
   int readByte = 0;
-  unsigned int frameNum = 0;
+  unsigned int frameNum = 1;
   char frameNumChar[4];
   unsigned int len;
   char checkSum = 0;
@@ -124,7 +124,7 @@ void TaskMain(void *pvParameters)
       readByte = 0;
     } else if (readByte == 'H') { // Reset
       readByte = 0;
-      frameNum = 0;
+      frameNum = 1;
       checkSum = 0;
       len = 0;
       establishContact();
