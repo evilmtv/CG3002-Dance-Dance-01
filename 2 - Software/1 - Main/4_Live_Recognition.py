@@ -208,7 +208,7 @@ while (ignoreLoopCount < debugLoops):
         checkSum = 0
         hashcount = 0
         oldAccID = newAccID
-        print("In debug loop:", ignoreLoopCount, "Reading took:", readEndTime-readTime, "ms", "Others took:", current_milli_time()-loopEndTime)
+        print("In debug loop:", ignoreLoopCount, "Reading took:", readEndTime-readTime, "ms", "Others took:", current_milli_time()-readEndTime)
 
 print("Average debug loop duration (ms): ", ((current_milli_time()-startTime)/debugLoops), "with", debugFailCount, "errors")
 
