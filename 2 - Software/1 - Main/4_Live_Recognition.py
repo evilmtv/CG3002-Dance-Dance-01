@@ -28,7 +28,7 @@ print("Initalizing")
 reshapeBy = 40 # Set number of inputs per sample for Machine Learning
 arduinoPort = "/dev/ttyACM0"
 #arduinoPort = "COM3"
-useServer = True
+useServer = False
 skipCalibration = True
 key = '3002300230023002'
 
@@ -76,6 +76,7 @@ resultBuffer =["standing", "standing", "standing", "standing", "standing"]
 ampBuffer = [0,0,0,0,0]
 voltBuffer = [0,0,0,0,0]
 pwrBuffer = [0,0,0,0,0]
+cumpower = 0
 
 #resultBuffer2
 
@@ -92,7 +93,7 @@ le = preprocessing.LabelEncoder()
 le.fit(['standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360', 'logout'])
 
 #Load Models
-knn_model = joblib.load('model_knn.pkl')
+#knn_model = joblib.load('model_knn.pkl')
 rf_model = joblib.load('model_rf.pkl')
 
 #time.sleep(0.5)
@@ -226,6 +227,7 @@ print("SYSTEM LIVE")
 print(" ")
 startTime = current_milli_time()
 loopTime = current_milli_time()
+powerOldTime = current_milli_time()
 
 while (loopCount < mainLoops):
     if (current_milli_time() > (startTime+0)):
@@ -260,10 +262,10 @@ while (loopCount < mainLoops):
                 print(normalized_X.shape)
 
                 #Get Result
-                result = le.inverse_transform(knn_model.predict(normalized_X))
+                result = le.inverse_transform(rf_model.predict(normalized_X))
                 print(result)
                 resultBuffer[successCount%5] = result
-                amp = (amp * 5 / 1023) / (10 / 10.1)
+                amp = (amp * 5 / 1023) / (10 / 10.1) / 10
                 ampBuffer[successCount%5] = amp
                 volt = volt / 102.3
                 voltBuffer[successCount%5] = volt
@@ -303,7 +305,12 @@ while (loopCount < mainLoops):
             #Send and print data in readable format
             bestAnswer = mode(resultBuffer)[0][0]
             if (useServer):
-                sendEncoded(bestAnswer, round(volt, 2), round(amp, 2), round(volt*amp,2), 4)
-            print('Results:', resultBuffer, 'Best Answer:', bestAnswer, '| Average reading time:', 'EMPTY', 'ms','| Processing time:', 'EMPTY', 'ms')
+                if (bestAnswer != 'standing'):
+                    sendEncoded(bestAnswer, round(volt, 4), round(amp, 4), round(volt*amp,4), 4)
+                    powerOldTime = current_milli_time()
+                    print('sent')
+            cumpower = cumpower + round(volt*amp,4)*((current_milli_time()-powerOldTime)/3600)
+            print('Best Answer:', bestAnswer, round(volt, 4), round(amp, 4), round(volt*amp,4), cumpower, 'kwh')
+            powerOldTime = current_milli_time()
 
             loopTime = current_milli_time() # Reset loopTime
