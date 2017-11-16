@@ -28,7 +28,7 @@ print("Initalizing")
 reshapeBy = 40 # Set number of inputs per sample for Machine Learning
 arduinoPort = "/dev/ttyACM0"
 #arduinoPort = "COM3"
-useServer = False
+useServer = True
 skipCalibration = True
 key = '3002300230023002'
 
@@ -73,6 +73,10 @@ msgCheckSum = 0
 checkSum = 0
 errorFlag = 0
 resultBuffer =["standing", "standing", "standing", "standing", "standing"]
+ampBuffer = [0,0,0,0,0]
+voltBuffer = [0,0,0,0,0]
+pwrBuffer = [0,0,0,0,0]
+
 #resultBuffer2
 
 # Static Declarations
@@ -101,10 +105,11 @@ print ("Initalized")
 if (useServer):
     print("Connecting to server")
     client = socket.socket()
-    ip = input("Enter IP:")
+    #ip = input("Enter IP:")
+    ip = '192.168.43.181'
     #ip = socket.gethostbyname(socket.gethostname())
-    port = int(input("Enter port: "))
-    #port = 3002
+    #port = int(input("Enter port: "))
+    port = 3002
     address = (ip,port)
     client.connect(address)
     #time.sleep(0.5)
@@ -175,6 +180,7 @@ while (ignoreLoopCount < debugLoops):
         ser.write(acknoledged) # Instruct Arduino to prepare next set of data
 
         message = message.decode() # Convert to string to manipulate data
+        print("Message:", message)
         newAccID = int(message.split(',', 1)[0]) # Extract message ID
         msgCheckSum = int((message.rsplit(',', 1)[1])[:-2]) # Extract message checksum
         message = message.rsplit(',', 1)[0] # Remove checksum from message
@@ -191,7 +197,7 @@ while (ignoreLoopCount < debugLoops):
             else: # Checksums do not match
                 debugFailCount += 1
                 print('Checksums error!', "Message Checksum:", msgCheckSum, "Generated Checksum:", checkSum)
-                print("Message:", message)
+                #print("Message:", message)
                 print(' ')
 
         elif (newAccID == oldAccID):
@@ -201,7 +207,7 @@ while (ignoreLoopCount < debugLoops):
         else:
             debugFailCount += 1
             print('ID error!', 'oldAccID:', oldAccID, 'newAccID:', newAccID)
-            print("Message:", message)
+            #print("Message:", message)
             print(' ')
 
         ignoreLoopCount += 1
@@ -257,6 +263,10 @@ while (loopCount < mainLoops):
                 result = le.inverse_transform(knn_model.predict(normalized_X))
                 print(result)
                 resultBuffer[successCount%5] = result
+                amp = (amp * 5 / 1023) / (10 / 10.1)
+                ampBuffer[successCount%5] = amp
+                volt = volt / 102.3
+                voltBuffer[successCount%5] = volt
                 successCount += 1
 
             else: # Checksums do not match
@@ -293,7 +303,7 @@ while (loopCount < mainLoops):
             #Send and print data in readable format
             bestAnswer = mode(resultBuffer)[0][0]
             if (useServer):
-                sendEncoded(bestAnswer, 1, 2, 3, 4)
+                sendEncoded(bestAnswer, round(volt, 2), round(amp, 2), round(volt*amp,2), 4)
             print('Results:', resultBuffer, 'Best Answer:', bestAnswer, '| Average reading time:', 'EMPTY', 'ms','| Processing time:', 'EMPTY', 'ms')
 
             loopTime = current_milli_time() # Reset loopTime
