@@ -3,7 +3,7 @@
 #include <Arduino_FreeRTOS.h>
 #include <task.h>
 
-#define SET_SIZE 40 // Number of sets of data for 1 sample size
+#define SET_SIZE 50 // Number of sets of data for 1 sample size
 
 // Function Declarations
 void establishContact();
@@ -12,8 +12,8 @@ void createMessage();
 
 // Variable Declarations
 TickType_t prevWakeTimeMain;
-int x0, y0, z0, x1, y1, z1, x2, y2, z2, x3, y3, z3, volt, amp;
-char x0Char[4], y0Char[4], z0Char[4], x1Char[4], y1Char[4], z1Char[4], x2Char[4], y2Char[4], z2Char[4], x3Char[4], y3Char[4], z3Char[4], voltChar[4], ampChar[4];
+int x0, y0, z0, x1, y1, z1, x2, y2, z2, volt, amp;
+char x0Char[4], y0Char[4], z0Char[4], x1Char[4], y1Char[4], z1Char[4], x2Char[4], y2Char[4], z2Char[4], voltChar[4], ampChar[4];
 char messageStr[2500];
 
 const int xpin0 = A0;
@@ -28,12 +28,8 @@ const int xpin2 = A8;
 const int ypin2 = A9;
 const int zpin2 = A10;
 
-const int xpin3 = A13;
-const int ypin3 = A14;
-const int zpin3 = A15;
-
-const int amppin = A4;
-const int voltpin = A12;
+const int amppin = A13;
+const int voltpin = A15;
 
 // the setup function runs once when you press reset or power the board
 void setup() {
@@ -76,7 +72,7 @@ void TaskMain(void *pvParameters)
       for (int h = 0; h < SET_SIZE; h++) {
         readSensors();
         createMessage();
-        vTaskDelayUntil(&prevWakeTimeMain, (4 / portTICK_PERIOD_MS)); // Ensure one set read every 4ms
+        vTaskDelayUntil(&prevWakeTimeMain, (10 / portTICK_PERIOD_MS)); // Ensure one set read every 10ms
       }
 
       // readVolt(); addVoltToMessage();
@@ -166,15 +162,12 @@ void readSensors() {
   x2 = analogRead(xpin2);
   y2 = analogRead(ypin2);
   z2 = analogRead(zpin2);
-
-  x3 = analogRead(xpin3);
-  y3 = analogRead(ypin3);
-  z3 = analogRead(zpin3);
 }
 
 void createMessage() {
   //Create messageStr char[]
-  //A0
+  
+  //Acc 0
   itoa(x0, x0Char, 10);    //convert int to char[]
   strcat(messageStr, x0Char);
   strcat(messageStr, ",");
@@ -185,7 +178,7 @@ void createMessage() {
   strcat(messageStr, z0Char);
   strcat(messageStr, ",");
 
-  //A1
+  //Acc 1
   itoa(x1, x1Char, 10);    //convert int to char[]
   strcat(messageStr, x1Char);
   strcat(messageStr, ",");
@@ -196,7 +189,7 @@ void createMessage() {
   strcat(messageStr, z1Char);
   strcat(messageStr, ",");
 
-  //A2
+  //Acc 2
   itoa(x2, x2Char, 10);    //convert int to char[]
   strcat(messageStr, x2Char);
   strcat(messageStr, ",");
@@ -207,15 +200,5 @@ void createMessage() {
   strcat(messageStr, z2Char);
   strcat(messageStr, ",");
 
-  //A3
-  itoa(x3, x3Char, 10);    //convert int to char[]
-  strcat(messageStr, x3Char);
-  strcat(messageStr, ",");
-  itoa(y3, y3Char, 10);
-  strcat(messageStr, y3Char);
-  strcat(messageStr, ",");
-  itoa(z3, z3Char, 10);
-  strcat(messageStr, z3Char);
-  strcat(messageStr, ",");
 }
 
