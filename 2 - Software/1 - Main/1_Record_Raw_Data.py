@@ -30,7 +30,7 @@ arduinoPort = "/dev/ttyACM0"
 # Declarations
 flag = 1
 debugLoops = 10
-mainLoops = 10 # Duration approx = mainLoops * 20ms
+mainLoops = 120 # 1minute = 60s = 120
 ignoreLoopCount = 0
 loopCount = 0
 newAccID = 0
@@ -61,7 +61,6 @@ isHandshakeDone = False
 calibrated = False
 debugLoops = 5
 debugFailCount = 0
-mainLoops = 10
 ignoreLoopCount = 0
 loopCount = 0
 successCount = 0
@@ -84,7 +83,7 @@ resend = ("\r\nR").encode()
 reshapedBy = int(reshapeBy*12)
 
 # Declare column headers
-cols = [list(range(1, (12*reshapeBy)+1))] # 1-480
+cols = [list(range(1, (12*reshapeBy)+2))] # 1-480
 fullDF = pd.DataFrame(columns=cols)
 #print(fullDF)
 
