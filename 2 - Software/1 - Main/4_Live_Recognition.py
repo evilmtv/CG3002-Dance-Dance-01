@@ -71,11 +71,7 @@ newTime = current_milli_time()
 hashcount = 0
 msgCheckSum = 0
 checkSum = 0
-errorFlag = 0
 resultBuffer =["standing", "standing", "standing", "standing", "standing"]
-ampBuffer = [0,0,0,0,0]
-voltBuffer = [0,0,0,0,0]
-pwrBuffer = [0,0,0,0,0]
 cumpower = 0
 
 #resultBuffer2
@@ -237,7 +233,6 @@ while (loopCount < mainLoops):
         message = ser.readline() # Read message from Arduino
         ser.write(acknoledged) # Instruct Arduino to prepare next set of data
 
-
         message = message.decode() # Convert to string to manipulate data
         newAccID = int(message.split(',', 1)[0]) # Extract message ID
         volt = int(message.rsplit(',', 3)[1])
@@ -259,34 +254,33 @@ while (loopCount < mainLoops):
 
                 #Normalize data
                 normalized_X = preprocessing.normalize(messagenp)
-                print(normalized_X.shape)
 
                 #Get Result
                 result = le.inverse_transform(rf_model.predict(normalized_X))
                 print(result)
                 resultBuffer[successCount%5] = result
+
+                #Power information
                 amp = (amp * 5 / 1023) / (10 / 10.1) / 10
-                ampBuffer[successCount%5] = amp
                 volt = volt / 102.3
-                voltBuffer[successCount%5] = volt
+                pwr = round(volt*amp,4)
+                cumpower = cumpower + pwr*((current_milli_time()-powerOldTime)/3600)
+                powerOldTime = current_milli_time()
+
                 successCount += 1
 
             else: # Checksums do not match
-                #ser.write(acknoledged) # Send request for resend of data from Arduino
                 checkSumFailCount += 1
-                errorFlag = True
                 print('Checksums error!', "Message Checksum:", msgCheckSum, "Generated Checksum:", checkSum)
                 print("Message:", message)
                 print(' ')
 
         elif (newAccID == oldAccID): # Repeated message recieved
             IDFailCount += 1
-            errorFlag = True
             print('ID error!', 'Same message received!')
             print(' ')
         else: # Unexpected/corrupt ID recieved
             IDFailCount += 1
-            errorFlag = True
             print('ID error!', 'oldAccID:', oldAccID, 'newAccID:', newAccID)
             print("Message:", message)
             print(' ')
@@ -306,11 +300,8 @@ while (loopCount < mainLoops):
             bestAnswer = mode(resultBuffer)[0][0]
             if (useServer):
                 if (bestAnswer != 'standing'):
-                    sendEncoded(bestAnswer, round(volt, 4), round(amp, 4), round(volt*amp,4), 4)
-                    powerOldTime = current_milli_time()
-                    print('sent')
-            cumpower = cumpower + round(volt*amp,4)*((current_milli_time()-powerOldTime)/3600)
-            print('Best Answer:', bestAnswer, round(volt, 4), round(amp, 4), round(volt*amp,4), cumpower, 'kwh')
-            powerOldTime = current_milli_time()
+                    sendEncoded(bestAnswer, round(volt, 4), round(amp, 4), pwr, cumpower)
+
+            print('Best Answer:', bestAnswer, 'Confidence:', mode(resultBuffer)[0][1], 'Volt:' round(volt, 4), 'Amp:', round(amp, 4), 'Watt:' pwr, 'KWh:' cumpower)
 
             loopTime = current_milli_time() # Reset loopTime
