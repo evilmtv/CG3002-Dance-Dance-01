@@ -41,7 +41,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Start up");
   establishContact();
-  xTaskCreate(TaskMain, "TaskMain", 2500, NULL, 2, NULL);
+  xTaskCreate(TaskMain, "TaskMain", 3000, NULL, 2, NULL);
 }
 
 void loop()
@@ -72,6 +72,7 @@ void TaskMain(void *pvParameters)
       strcpy(messageStr, frameNumChar);
       strcat(messageStr, ",");
 
+      prevWakeTimeMain = xTaskGetTickCount();
       for (int h = 0; h < SET_SIZE; h++) {
         readSensors();
         createMessage();
@@ -80,18 +81,12 @@ void TaskMain(void *pvParameters)
 
       // readVolt(); addVoltToMessage();
       volt = analogRead(voltpin);
-      //Serial.println(volt);
-      //volt = (volt / 1.023); 
-      //volt = 5;
       itoa(volt, voltChar, 10);
       strcat(messageStr, voltChar);
       strcat(messageStr, ",");
 
       // readAmp(); addAmpToMessage();
-      amp = analogRead(amppin);
-      //amp = 69;
-      //sensorValue = ((float) amp * 5)/1023; // Declare sensorValue and current as float
-      //current = sensorValue / (10/10.1);
+      amp = analogRead(amppin); // current = ((float) amp * 5) / 1023 / (10 / 10.1)
       itoa(amp, ampChar, 10);
       strcat(messageStr, ampChar);
 
@@ -102,18 +97,12 @@ void TaskMain(void *pvParameters)
       }
       checkSum2 = (int)checkSum;
       itoa(checkSum2, finalCheckSum, 10);
-      //Serial.println("checksum");
-      //Serial.println(checkSum);
-      //Serial.println("Checksum2");
-      //Serial.println(checkSum2);
-      //Serial.println("final");
-      //Serial.println(finalCheckSum);
       strcat(messageStr, ","); // exclude last ',' from checksum
       strcat(messageStr, finalCheckSum);
       len = strlen(messageStr);
       messageStr[len + 1] = '\n'; 
+      
       //Send message
-      //Serial.write('\n');
       for (int j = 0; j < len + 2; j++) {
         Serial.write(messageStr[j]);
       }
@@ -161,6 +150,7 @@ void establishContact() {
       Serial.write('A');
     }
   }
+  Serial.write('\n');
 }
 
 void readSensors() {
