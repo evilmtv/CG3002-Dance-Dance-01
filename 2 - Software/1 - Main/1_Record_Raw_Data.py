@@ -5,7 +5,7 @@ Created on Fri Oct 27 16:09:01 2017
 """
 
 #Set print command to print to file
-#import sys
+import sys
 #sys.stdout = open("OutputComb.txt", "w")
 
 #Print current time on computer
@@ -54,10 +54,39 @@ z2cal = 0
 x3cal = 0
 y3cal = 0
 z3cal = 0
+isHandshakeDone = False
+
+# Variable Declarations
+isHandshakeDone = False
+calibrated = False
+debugLoops = 5
+debugFailCount = 0
+mainLoops = 10
+ignoreLoopCount = 0
+loopCount = 0
+successCount = 0
+checkSumFailCount = 0
+IDFailCount = 0
+newAccID = 0
+oldAccID = 0
+oldTime = current_milli_time()
+newTime = current_milli_time()
+hashcount = 0
+msgCheckSum = 0
+checkSum = 0
+errorFlag = 0
+
+# Static Declarations
+handshake = ("\r\nH").encode()
+acknoledged = ("\r\nA").encode()
+clear = ("\r\nAAAAAAAAAA").encode()
+resend = ("\r\nR").encode()
+reshapedBy = int(reshapeBy*12)
 
 # Declare column headers
 cols = [list(range(1, (12*reshapeBy)+1))] # 1-480
-fullDF = pd.DataFrame(list(range(11, 17)))
+fullDF = pd.DataFrame(columns=cols)
+#print(fullDF)
 
 # Initialize Arduino connection and perform handshake
 print("Connecting to Raspberry Pi")
@@ -73,23 +102,21 @@ while (isHandshakeDone == False):
             print("Response verified, handshake complete")
             isHandshakeDone = True
             ser.write(acknoledged)
-            ser.readline()
+            ser.readline() # Clear the screaming
+            ser.write(acknoledged)
             print("Starting in 3 seconds")
-            time.sleep(0.5)
+            time.sleep(0.3)
             sys.stdout.write("\033[F") # Cursor up one line
             sys.stdout.write("\033[K") # Clear line
             print ("Starting in 2 seconds")
-            time.sleep(0.5)
-            ser.write(acknoledged)
-            ser.readline()
+            time.sleep(0.3)
             sys.stdout.write("\033[F") # Cursor up one line
             sys.stdout.write("\033[K") # Clear line
             print ("Starting in 1 seconds")
-            time.sleep(0.5)
+            time.sleep(0.3)
             sys.stdout.write("\033[F") # Cursor up one line
             sys.stdout.write("\033[K") # Clear line
             print ("Begin")
-            ser.write(acknoledged)
         else:
             ser.write(handshake)
             print(response)
@@ -108,6 +135,7 @@ while (ignoreLoopCount < debugLoops):
         ser.write(acknoledged) # Instruct Arduino to prepare next set of data
 
         message = message.decode() # Convert to string to manipulate data
+        print(message)
         newAccID = int(message.split(',', 1)[0]) # Extract message ID
         msgCheckSum = int((message.rsplit(',', 1)[1])[:-2]) # Extract message checksum
         message = message.rsplit(',', 1)[0] # Remove checksum from message
@@ -141,11 +169,23 @@ while (ignoreLoopCount < debugLoops):
         checkSum = 0
         hashcount = 0
         oldAccID = newAccID
-        print("In debug loop:", ignoreLoopCount, "Reading took:", readEndTime-readTime, "ms", "Others took:", current_milli_time()-loopEndTime)
+        print("In debug loop:", ignoreLoopCount, "Reading took:", readEndTime-readTime, "ms", "Others took:", current_milli_time()-readEndTime)
 
 print("Average debug loop duration (ms): ", ((current_milli_time()-startTime)/debugLoops), "with", debugFailCount, "errors")
 
-time.sleep(5)
+print("Starting in 3 seconds")
+time.sleep(0.3)
+sys.stdout.write("\033[F") # Cursor up one line
+sys.stdout.write("\033[K") # Clear line
+print ("Starting in 2 seconds")
+time.sleep(0.3)
+sys.stdout.write("\033[F") # Cursor up one line
+sys.stdout.write("\033[K") # Clear line
+print ("Starting in 1 seconds")
+time.sleep(0.3)
+sys.stdout.write("\033[F") # Cursor up one line
+sys.stdout.write("\033[K") # Clear line
+print ("Begin")
 
 # Read (Main Loop)
 print("MAIN LOOP")
@@ -173,9 +213,11 @@ while (loopCount < mainLoops):
             message = message.rsplit(',', 2)[0] # Remove volt and amp from message
             message = message.split(',', 1)[1] # Remove ID from message
             messagenp = np.fromstring(message[0:(len(message))], dtype=int, sep=",")
-            messagenp = messagenp.reshape(1,-1)
+            #print(messagenp)
+            #messagenp = messagenp.reshape(1,-1)
 
             messagepd = pd.DataFrame(data=messagenp.reshape(-1, (len(messagenp))), index=['1'], columns=cols)
+            #print(messagepd)
             fullDF = fullDF.append(messagepd, ignore_index = True)
 
             successCount += 1
@@ -206,7 +248,7 @@ while (loopCount < mainLoops):
     hashcount = 0
 
     # Show user number of loops
-    if (loopCount%10 == 0):
+    if (loopCount%5== 0):
         print('Successes:', successCount, '| ID errors:', IDFailCount,'| Checksum errors:', checkSumFailCount)
 
 
@@ -214,6 +256,6 @@ print('Average main loop duration (ms):', ((current_milli_time()-startTime)/main
 print(fullDF)
 
 # Remove unneeded data
-fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
+#fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
 # Save cleaned raw data to csv file
 fullDF.to_csv('recorded_data.csv', sep=',')
