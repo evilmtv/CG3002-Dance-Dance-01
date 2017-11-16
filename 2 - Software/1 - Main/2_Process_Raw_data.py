@@ -14,11 +14,11 @@ import os
 toAvg = 0
 avgBy = 5
 toReshape = 1
-reshapeBy = 40 # Set number of inputs per sample for Machine Learning
+reshapeBy = 50 # Set number of inputs per sample for Machine Learning
 firstFile = True
 
 # Declare column headers
-cols = [list(range(1, (12*reshapeBy)+2))] # 1-480
+cols = [list(range(1, (9*reshapeBy)+2))] # 1-480
 #fullDF = pd.DataFrame(columns=cols)
 
 
@@ -37,10 +37,9 @@ for filename in os.listdir('RawData'):
         firstFile = False
         pathedFileName = "RawData\\" + filename
         print(pathedFileName)
-        pdtestdata = pd.read_csv("RawData\\"+str(filename), delimiter=',')        
+        pdtestdata = pd.read_csv("RawData\\"+str(filename), delimiter=',')
         pdtestdata = pdtestdata.drop(pdtestdata.columns[0], axis=1) # Remove ID
         fullDF = pdtestdata.reset_index(drop=True)
-        print(fullDF['481'])
         del pdtestdata
     else:
         pathedFileName = "RawData\\" + filename

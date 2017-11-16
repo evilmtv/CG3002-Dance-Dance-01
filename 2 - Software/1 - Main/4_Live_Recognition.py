@@ -25,7 +25,7 @@ print(str(datetime.now()))
 print("Initalizing")
 
 # Config.ini
-reshapeBy = 40 # Set number of inputs per sample for Machine Learning
+reshapeBy = 50 # Set number of inputs per sample for Machine Learning
 arduinoPort = "/dev/ttyACM0"
 #arduinoPort = "COM3"
 useServer = False
@@ -56,7 +56,7 @@ current_milli_time = lambda: int(round(time.time() * 1000)) # current_milli_time
 # Variable Declarations
 isHandshakeDone = False
 calibrated = False
-debugLoops = 10
+debugLoops = 3
 debugFailCount = 0
 mainLoops = 6000
 ignoreLoopCount = 0
@@ -85,7 +85,7 @@ handshake = ("\r\nH").encode()
 acknoledged = ("\r\nA").encode()
 clear = ("\r\nAAAAAAAAAA").encode()
 resend = ("\r\nR").encode()
-reshapedBy = int(reshapeBy*12)
+reshapedBy = int(reshapeBy*9)
 
 
 ## Encode output variable

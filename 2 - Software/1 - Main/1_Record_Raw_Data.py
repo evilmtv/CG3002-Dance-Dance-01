@@ -24,7 +24,7 @@ import serial
 import array
 
 # Config.ini
-reshapeBy = 40 # Set number of inputs per sample for Machine Learning
+reshapeBy = 50 # Set number of inputs per sample for Machine Learning
 arduinoPort = "/dev/ttyACM0"
 
 # Variable Declarations
@@ -32,7 +32,7 @@ flag = 1
 mainLoops = 120 # 1minute = 60s = 120
 isHandshakeDone = False
 calibrated = False
-debugLoops = 10
+debugLoops = 3
 debugFailCount = 0
 ignoreLoopCount = 0
 loopCount = 0
@@ -67,10 +67,10 @@ handshake = ("\r\nH").encode()
 acknoledged = ("\r\nA").encode()
 clear = ("\r\nAAAAAAAAAA").encode()
 resend = ("\r\nR").encode()
-reshapedBy = int(reshapeBy*12)
+reshapedBy = int(reshapeBy*9)
 
 # Declare column headers
-cols = [list(range(1, (12*reshapeBy)+2))] # 1-480
+cols = [list(range(1, (9*reshapeBy)+1))] # 1-480
 fullDF = pd.DataFrame(columns=cols)
 
 # Initialize Arduino connection and perform handshake
@@ -193,12 +193,13 @@ while (loopCount < mainLoops):
         if (checkSum == msgCheckSum): #Check if checksums matches
             message = message.rsplit(',', 2)[0] # Remove volt and amp from message
             message = message.split(',', 1)[1] # Remove ID from message
-            message += ',10' # 'standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360', 'logout'
+            #message += ',10' # 'standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360', 'logout'
             messagenp = np.fromstring(message[0:(len(message))], dtype=int, sep=",")
             #print(messagenp)
             #messagenp = messagenp.reshape(1,-1)
 
             messagepd = pd.DataFrame(data=messagenp.reshape(-1, (len(messagenp))), index=['1'], columns=cols)
+            messagepd['451']='standing'
             #print(messagepd)
             fullDF = fullDF.append(messagepd, ignore_index = True)
 
