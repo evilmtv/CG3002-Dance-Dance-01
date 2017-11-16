@@ -212,6 +212,7 @@ while (loopCount < mainLoops):
         if (checkSum == msgCheckSum): #Check if checksums matches
             message = message.rsplit(',', 2)[0] # Remove volt and amp from message
             message = message.split(',', 1)[1] # Remove ID from message
+            message += ',10' # 'standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360', 'logout'
             messagenp = np.fromstring(message[0:(len(message))], dtype=int, sep=",")
             #print(messagenp)
             #messagenp = messagenp.reshape(1,-1)

@@ -125,6 +125,10 @@ if (toAvg):
 if (toReshape):
     rowsLeft=(pdtestdata.shape[0])/int(reshapeBy) #gives number of row count after reshape
     pdtestdata = pd.DataFrame(np.reshape(pdtestdata.values,(int(rowsLeft),int(reshapeBy*12))),  columns=list(range(int(reshapeBy*12))))
+##Encode output variable
+le = preprocessing.LabelEncoder()
+le.fit(['standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360', 'logout'])
+print(list(le.classes_))
 
 pdtestdata = pdtestdata.reset_index(drop=True)
 pdtestdata[int(reshapeBy*12)]='Jumping'

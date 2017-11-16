@@ -89,7 +89,7 @@ reshapedBy = int(reshapeBy*12)
 
 ## Encode output variable
 le = preprocessing.LabelEncoder()
-le.fit(['standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360', 'ultra'])
+le.fit(['standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360', 'logout'])
 
 #Load Models
 knn_model = joblib.load('model_knn.pkl')
