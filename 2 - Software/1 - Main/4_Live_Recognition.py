@@ -25,7 +25,7 @@ print("Initalizing")
 reshapeBy = 50 # Set number of inputs per sample for Machine Learning
 arduinoPort = "/dev/ttyACM0"
 #arduinoPort = "COM3"
-useServer = False
+useServer = True
 skipCalibration = True
 key = '3002300230023002'
 
@@ -104,10 +104,10 @@ if (useServer):
     print("Connecting to server")
     client = socket.socket()
     #ip = input("Enter IP:")
-    ip = '192.168.43.181'
+    ip = '192.168.43.51'
     #ip = socket.gethostbyname(socket.gethostname())
     #port = int(input("Enter port: "))
-    port = 3002
+    port = 8888
     address = (ip,port)
     client.connect(address)
     #time.sleep(0.5)
@@ -324,3 +324,4 @@ while (loopCount < mainLoops):
         print('Latest Result', result, 'Best Answer:', bestAnswer, 'Confidence:', bestAnswerConfidence, 'Volt:', round(volt, 3), 'Amp:', round(amp, 3), 'Watt:', pwr, 'KWh:', round(cumpower, 3))
 
             #loopTime = current_milli_time() # Reset loopTime
+

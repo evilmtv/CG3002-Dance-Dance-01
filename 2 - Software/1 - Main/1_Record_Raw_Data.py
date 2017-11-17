@@ -29,7 +29,7 @@ arduinoPort = "/dev/ttyACM0"
 
 # Variable Declarations
 flag = 1
-mainLoops = 120 # 1minute = 60s = 120
+mainLoops = 40 # 1minute = 60s = 120
 isHandshakeDone = False
 calibrated = False
 debugLoops = 3
@@ -241,4 +241,4 @@ print(fullDF)
 # Remove unneeded data
 #fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
 # Save cleaned raw data to csv file
-fullDF.to_csv('recorded_data.csv', sep=',')
+fullDF.to_csv('j0-3.csv', sep=',')
