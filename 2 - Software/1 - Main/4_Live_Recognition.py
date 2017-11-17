@@ -25,7 +25,7 @@ print("Initalizing")
 reshapeBy = 50 # Set number of inputs per sample for Machine Learning
 arduinoPort = "/dev/ttyACM0"
 #arduinoPort = "COM3"
-useServer = True
+useServer = False
 skipCalibration = True
 key = '3002300230023002'
 
@@ -71,6 +71,9 @@ checkSum = 0
 resultBuffer =['standing', 'standing', 'standing', 'standing', 'standing']
 cumpower = 0
 waitOneTick = False
+resetFlag = False
+resetFlagCount = 0
+logoutCount = 0
 
 #resultBuffer2
 
@@ -288,20 +291,36 @@ while (loopCount < mainLoops):
         hashcount = 0
 
         # Show user number of loops
-        if (loopCount%10 == 0):
-            print('Successes:', successCount, '| ID errors:', IDFailCount,'| Checksum errors:', checkSumFailCount)
-
+        #if (loopCount%10 == 0):
+        #    print('Successes:', successCount, '| ID errors:', IDFailCount,'| Checksum errors:', checkSumFailCount)
+            
+        if (resetFlag == True):
+            resetFlagCount = resetFlagCount + 1
+            if (resetFlagCount == 10):
+                resetFlag = False
+                resetFlagCount = 0
+            
+        
         # When number of consecutive successful readings reaches 4
-        if (successCount > 7):
-            #Send and print data in readable format
-            bestAnswer = str(mode(resultBuffer)[0][0])
-            bestAnswerConfidence = mode(resultBuffer)[1][0]
+        #Send and print data in readable format
+        bestAnswer = str((mode(resultBuffer))[0][0][0])
+        bestAnswerConfidence = mode(resultBuffer)[1][0]
+        if (bestAnswer == 'standing'):
+            logoutCount = logoutCount + 1
+            if (logoutCount == 20):
+                bestAnswer = 'logout'
+                bestAnswerConfidence = 3
+                logoutCount = 0
+            else:
+                logoutCount = 0
+                
+        if (resetFlag == False):
             if (useServer):
                 if ((bestAnswer != 'standing') & (bestAnswerConfidence > 2)):
-                    print('sending')
                     sendEncoded(bestAnswer, round(volt, 3), round(amp, 3), pwr, round(cumpower, 3))
-                    resultBuffer =['standing', 'standing', 'standing', 'standing', 'standing']
+                    resetFlag = True
+            
 
-            print('Latest Result', result, 'Best Answer:', bestAnswer, 'Confidence:', bestAnswerConfidence, 'Volt:', round(volt, 3), 'Amp:', round(amp, 3), 'Watt:', pwr, 'KWh:', round(cumpower, 3))
+        print('Latest Result', result, 'Best Answer:', bestAnswer, 'Confidence:', bestAnswerConfidence, 'Volt:', round(volt, 3), 'Amp:', round(amp, 3), 'Watt:', pwr, 'KWh:', round(cumpower, 3))
 
-            loopTime = current_milli_time() # Reset loopTime
+            #loopTime = current_milli_time() # Reset loopTime
