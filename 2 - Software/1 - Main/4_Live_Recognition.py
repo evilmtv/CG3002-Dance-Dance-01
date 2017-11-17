@@ -6,12 +6,9 @@
 from Crypto.Cipher import AES
 from Crypto import Random
 import base64
-import os, random
 import socket
-import pandas as pd
 import numpy as np
-import csv
-from scipy.stats import mode
+from scipy.stats import mode #https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mode.html
 from sklearn import preprocessing
 from sklearn.externals import joblib
 import serial
@@ -73,6 +70,7 @@ msgCheckSum = 0
 checkSum = 0
 resultBuffer =["standing", "standing", "standing", "standing", "standing"]
 cumpower = 0
+waitOneTick = False
 
 #resultBuffer2
 
@@ -257,7 +255,6 @@ while (loopCount < mainLoops):
 
                 #Get Result
                 result = le.inverse_transform(rf_model.predict(normalized_X))
-                print(result)
                 resultBuffer[successCount%5] = result
 
                 #Power information
@@ -294,14 +291,16 @@ while (loopCount < mainLoops):
         if (loopCount%10 == 0):
             print('Successes:', successCount, '| ID errors:', IDFailCount,'| Checksum errors:', checkSumFailCount)
 
-        # When number of consecutive successful readings reaches 5
-        if ((successCount > 0) & (successCount%5 == 0)):
+        # When number of consecutive successful readings reaches 4
+        if (successCount > 0):
             #Send and print data in readable format
             bestAnswer = mode(resultBuffer)[0][0]
+            bestAnswerConfidence = mode(resultBuffer)[1][0]
             if (useServer):
-                if (bestAnswer != 'standing'):
+                if (bestAnswer != 'standing' & bestAnswerConfidence > 2):
                     sendEncoded(bestAnswer, round(volt, 4), round(amp, 4), pwr, cumpower)
+                    resultBuffer =["standing", "standing", "standing", "standing", "standing", "standing"]
 
-            print('Best Answer:', bestAnswer, 'Confidence:', mode(resultBuffer)[0][1], 'Volt:' round(volt, 4), 'Amp:', round(amp, 4), 'Watt:' pwr, 'KWh:' cumpower)
+            print('Latest Result', result, 'Best Answer:', bestAnswer, 'Confidence:', bestAnswerConfidence, 'Volt:', round(volt, 4), 'Amp:', round(amp, 4), 'Watt:', pwr, 'KWh:', cumpower)
 
             loopTime = current_milli_time() # Reset loopTime
