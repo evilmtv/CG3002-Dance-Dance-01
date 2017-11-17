@@ -25,7 +25,7 @@ print("Initalizing")
 reshapeBy = 50 # Set number of inputs per sample for Machine Learning
 arduinoPort = "/dev/ttyACM0"
 #arduinoPort = "COM3"
-useServer = False
+useServer = True
 skipCalibration = True
 key = '3002300230023002'
 
@@ -68,7 +68,7 @@ newTime = current_milli_time()
 hashcount = 0
 msgCheckSum = 0
 checkSum = 0
-resultBuffer =["standing", "standing", "standing", "standing", "standing"]
+resultBuffer =['standing', 'standing', 'standing', 'standing', 'standing']
 cumpower = 0
 waitOneTick = False
 
@@ -213,7 +213,7 @@ while (ignoreLoopCount < debugLoops):
 
 print("Average debug loop duration (ms): ", ((current_milli_time()-startTime)/debugLoops), "with", debugFailCount, "errors")
 
-time.sleep(5)
+time.sleep(1)
 
 # Read (Main Loop)
 print(' ')
@@ -260,7 +260,7 @@ while (loopCount < mainLoops):
                 #Power information
                 amp = (amp * 5 / 1023) / (10 / 10.1) / 10
                 volt = volt / 102.3
-                pwr = round(volt*amp,4)
+                pwr = round(volt*amp, 4)
                 cumpower = cumpower + pwr*((current_milli_time()-powerOldTime)/3600)
                 powerOldTime = current_milli_time()
 
@@ -292,15 +292,16 @@ while (loopCount < mainLoops):
             print('Successes:', successCount, '| ID errors:', IDFailCount,'| Checksum errors:', checkSumFailCount)
 
         # When number of consecutive successful readings reaches 4
-        if (successCount > 0):
+        if (successCount > 7):
             #Send and print data in readable format
-            bestAnswer = mode(resultBuffer)[0][0]
+            bestAnswer = str(mode(resultBuffer)[0][0])
             bestAnswerConfidence = mode(resultBuffer)[1][0]
             if (useServer):
-                if (bestAnswer != 'standing' & bestAnswerConfidence > 2):
-                    sendEncoded(bestAnswer, round(volt, 4), round(amp, 4), pwr, cumpower)
-                    resultBuffer =["standing", "standing", "standing", "standing", "standing", "standing"]
+                if ((bestAnswer != 'standing') & (bestAnswerConfidence > 2)):
+                    print('sending')
+                    sendEncoded(bestAnswer, round(volt, 3), round(amp, 3), pwr, round(cumpower, 3))
+                    resultBuffer =['standing', 'standing', 'standing', 'standing', 'standing']
 
-            print('Latest Result', result, 'Best Answer:', bestAnswer, 'Confidence:', bestAnswerConfidence, 'Volt:', round(volt, 4), 'Amp:', round(amp, 4), 'Watt:', pwr, 'KWh:', cumpower)
+            print('Latest Result', result, 'Best Answer:', bestAnswer, 'Confidence:', bestAnswerConfidence, 'Volt:', round(volt, 3), 'Amp:', round(amp, 3), 'Watt:', pwr, 'KWh:', round(cumpower, 3))
 
             loopTime = current_milli_time() # Reset loopTime
