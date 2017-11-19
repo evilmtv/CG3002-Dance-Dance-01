@@ -1,5 +1,60 @@
 # IVLE Announcements
 
+## IVLE: CG3002: CG3002: Procedure for Claims
+`by: Sangit Sasidhar, 16-Nov-2017 01:55 PM`
+Dear All,
+
+You need to submit the claims form (RFP) for each group alongwith the list of expenses excel sheet and the receipts.  Please note the following points:  
+You need to dismantle your dancing prototypes and return the components within a week of your final dance!! (23rd November for Thursday's Group and 24th November for Friday's Group)  
+The receipts need to be pasted on A4 size paper. I have attached a sample on how to paste the receipts.  
+The receipts need to be verified by the lab officers with the corresponding purchases when you return the components.  
+Ensure that you fill up the List of expenses excel sheet with all the purchase details.  
+Have an awesome dance-off!!!  
+
+Cheers  
+CG3002 Teaching Team  
+
+## Final Test Schedule
+`by: Peh Li Shiuan, 14-Nov-2017 10:25 AM`
+Hi all,
+
+ This is the time and order the final test will be carried out this Thursday/Friday. I generated it randomly in python :P. All members of the group must be present.
+
+Nov 16 Thursday  
+2:20pm Group 11  
+2:40pm Group 6  
+3pm Group 9  
+3:20pm Group 1  
+3:40pm Group 7  
+4pm Group 2  
+4:20pm Group 8  
+4:40pm Group 4  
+ 
+Nov 17 Friday  
+2:20pm Group 12  
+2:40pm Group 5  
+3pm Group 10  
+3:20pm Group 3  
+3:40pm Group 13  
+
+    See you all at the final dance off! :)
+
+Cheers,  
+Li Shiuan  
+p/s For the final report submission due Sunday 2359, please also submit your final code (compressed .tar ideally, or github link)
+
+## IVLE: CG3002: CG3002: Logout Move
+`by: Sangit Sasidhar, 13-Nov-2017 11:16 PM`  
+Dear All,
+
+For the final evaluation the server will stop displaying after the 40th move. You can send the logout message to the server in one of two ways:
+
+1. You can have an internal count to 40 and send the logout message to the server after the count reaches 40 or
+2. Once you send the 40th move you can do your "logout" move and send the logout message to the server (Once the server receives the 40th move you can dance the logout move).
+
+Regards,
+CG3002 Teaching Team
+
 ## New Files in Module CG3002 
 `by: Peh Li Shiuan, 08-Nov-2017 08:54 PM`  
 New Files :
