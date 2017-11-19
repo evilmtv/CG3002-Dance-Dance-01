@@ -4,35 +4,33 @@ Created on Fri Oct 27 16:09:01 2017
 @author: Jun Hao
 """
 
-#Set print command to print to file
 import sys
-#sys.stdout = open("OutputComb.txt", "w")
-
-#Print current time on computer
-from datetime import datetime
-print (str(datetime.now()))
-
-#Implement simple timer
 import time
+import pandas as pd
+import numpy as np
+import serial
+import array
+
+# Implement simple timer
 current_milli_time = lambda: int(round(time.time() * 1000))
 timetotalsegment = 0
 
-import pandas as pd
-import numpy as np
-#import csv
-import serial
-import array
+# Print current time on terminal
+from datetime import datetime
+print (str(datetime.now()))
 
 # Config.ini
 reshapeBy = 50 # Set number of inputs per sample for Machine Learning
 arduinoPort = "/dev/ttyACM0"
+debugLoops = 3
+mainLoops = 40 # 1 minute = 60s = 120 sets of data
+skipCalibration = True
+#sys.stdout = open("OutputComb.txt", "w") # Set print command to print to file
 
 # Variable Declarations
 flag = 1
-mainLoops = 40 # 1minute = 60s = 120
 isHandshakeDone = False
 calibrated = False
-debugLoops = 3
 debugFailCount = 0
 ignoreLoopCount = 0
 loopCount = 0
@@ -47,7 +45,6 @@ hashcount = 0
 msgCheckSum = 0
 checkSum = 0
 errorFlag = 0
-skipCalibration = True
 calibrated = False
 x0cal = 0
 y0cal = 0
@@ -58,9 +55,6 @@ z1cal = 0
 x2cal = 0
 y2cal = 0
 z2cal = 0
-x3cal = 0
-y3cal = 0
-z3cal = 0
 
 # Static Declarations
 handshake = ("\r\nH").encode()
@@ -68,9 +62,9 @@ acknoledged = ("\r\nA").encode()
 clear = ("\r\nAAAAAAAAAA").encode()
 resend = ("\r\nR").encode()
 reshapedBy = int(reshapeBy*9)
+cols = [list(range(1, (9*reshapeBy)+1))] # Declare column headers 1-450
 
-# Declare column headers
-cols = [list(range(1, (9*reshapeBy)+1))] # 1-480
+# Declare empty DataFrame
 fullDF = pd.DataFrame(columns=cols)
 
 # Initialize Arduino connection and perform handshake
@@ -80,34 +74,50 @@ sys.stdout.write("\033[F") # Cursor up one line
 sys.stdout.write("\033[K") # Clear line
 print ("Raspberry Pi Connected")
 while (isHandshakeDone == False):
-        ser.write(handshake)
+        ser.write(handshake) # Initiate handshake on Arduino
         print("H sent, awaiting response")
         response = ser.read().decode()
         if response == ('A'):
             print("Response verified, handshake complete")
             isHandshakeDone = True
             ser.write(acknoledged)
-            ser.readline() # Clear the screaming
-            ser.write(acknoledged)
+            ser.readline() # Clear the screaming "AAAAAAAAAAAAAAAAA"
+            time.sleep(0.5)
             print("Starting in 3 seconds")
-            time.sleep(0.3)
+            time.sleep(0.5)
             sys.stdout.write("\033[F") # Cursor up one line
             sys.stdout.write("\033[K") # Clear line
             print ("Starting in 2 seconds")
-            time.sleep(0.3)
+            time.sleep(0.5)
+            ser.write(acknoledged)
+            ser.readline()
             sys.stdout.write("\033[F") # Cursor up one line
             sys.stdout.write("\033[K") # Clear line
             print ("Starting in 1 seconds")
-            time.sleep(0.3)
+            time.sleep(0.5)
             sys.stdout.write("\033[F") # Cursor up one line
             sys.stdout.write("\033[K") # Clear line
             print ("Begin")
+            ser.write(acknoledged) # Intentionally increase message ID to #2 to test ID error checking in system test section
         else:
             ser.write(handshake)
-            print('Response:',response)
+            print(response)
             ser.write(handshake)
 
-# Ignore early readings
+# Calibration (NOT IMPLEMENTED)
+if (skipCalibration == False):
+    startTime = current_milli_time()
+    while (calibrated == False):
+        # 1. read data
+        # 2. check if any value exceed limits -> WARN WORN INCORRECT -> reset to step 1
+        # 3. check if large fluctuation from any previous datas -> WARN LARGE FLUCTUATION -> reset to step 1
+        # 3b. else save data and loop until count = 200 -> take average of 200 sets of data to be calibrateCandidate1
+        # 4. ask user to move about and reset position to neutral -> give 5 seconds before starting
+        # 5. restart from 1 for calibrateCandidate2
+        # 6. check if calibrateCandidate1 is close to calibrateCandidate2, if yes, take the average and save calibration data
+        print("Calibration took (ms): ", (current_milli_time()-startTime))
+
+# Ignore early readings (System test)
 print("Begin System Test")
 startTime = loopTime = current_milli_time()
 while (ignoreLoopCount < debugLoops):
@@ -150,7 +160,7 @@ while (ignoreLoopCount < debugLoops):
     checkSum = 0
     hashcount = 0
     oldAccID = newAccID
-    print("In debug loop:", ignoreLoopCount, "Reading took:", readEndTime-readTime, "ms")
+    print("In debug loop:", ignoreLoopCount, "Reading took:", readEndTime-readTime, "ms", "Others took:", current_milli_time()-readEndTime)
 
 print("Average debug loop duration (ms): ", ((current_milli_time()-startTime)/debugLoops), "with", debugFailCount, "errors")
 
@@ -169,14 +179,18 @@ sys.stdout.write("\033[K") # Clear line
 print ("Begin")
 
 # Read (Main Loop)
-print("MAIN LOOP")
+print(' ')
+print('SYSTEM LIVE')
+print(' ')
 startTime = current_milli_time()
 
 while (loopCount < mainLoops):
     startTime = current_milli_time()
     loopCount += 1
+    
     message = ser.readline() # Read message from Arduino
     ser.write(acknoledged) # Instruct Arduino to prepare next set of data
+    
     message = message.decode() # Convert to string to manipulate data
     newAccID = int(message.split(',', 1)[0]) # Extract message ID
     volt = int(message.rsplit(',', 3)[1])
@@ -238,7 +252,5 @@ while (loopCount < mainLoops):
 print('Average main loop duration (ms):', ((current_milli_time()-startTime)/mainLoops))
 print(fullDF)
 
-# Remove unneeded data
-#fullDF = fullDF.drop(fullDF.columns[0], axis=1) # Remove ID
-# Save cleaned raw data to csv file
-fullDF.to_csv('j0-3.csv', sep=',')
+# Save raw data to csv file
+fullDF.to_csv('Raw_Data_0.csv', sep=',')

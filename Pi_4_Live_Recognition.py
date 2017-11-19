@@ -23,13 +23,16 @@ print("Initalizing")
 
 # Config.ini
 reshapeBy = 50 # Set number of inputs per sample for Machine Learning
-arduinoPort = "/dev/ttyACM0"
-#arduinoPort = "COM3"
+arduinoPort = "/dev/ttyACM0" # On Windows use arduinoPort = "COM3"
 useServer = True
 skipCalibration = True
 key = '3002300230023002'
+debugLoops = 3
+mainLoops = 6000
+skipCalibration = True
+#sys.stdout = open("OutputComb.txt", "w") # Set print command to print to file
 
-## Functions
+# Functions
 def encryptData(data):
      BLOCK_SIZE = 16
      PADDING = ' '
@@ -53,9 +56,7 @@ current_milli_time = lambda: int(round(time.time() * 1000)) # current_milli_time
 # Variable Declarations
 isHandshakeDone = False
 calibrated = False
-debugLoops = 3
 debugFailCount = 0
-mainLoops = 6000
 ignoreLoopCount = 0
 loopCount = 0
 successCount = 0
@@ -70,34 +71,29 @@ msgCheckSum = 0
 checkSum = 0
 resultBuffer =['standing', 'standing', 'standing', 'standing', 'standing']
 cumpower = 0
-waitOneTick = False
 resetFlag = False
 resetFlagCount = 0
 logoutCount = 0
-
-#resultBuffer2
 
 # Static Declarations
 handshake = ("\r\nH").encode()
 acknoledged = ("\r\nA").encode()
 clear = ("\r\nAAAAAAAAAA").encode()
 resend = ("\r\nR").encode()
-reshapedBy = int(reshapeBy*9)
-
 
 ## Encode output variable
 le = preprocessing.LabelEncoder()
 le.fit(['standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360', 'logout'])
 
+
 #Load Models
 #knn_model = joblib.load('model_knn.pkl')
 rf_model = joblib.load('model_rf.pkl')
 
-#time.sleep(0.5)
 sys.stdout.write("\033[F") # Cursor up one line
 sys.stdout.write("\033[K") # Clear line
 print ("Initalized")
-#time.sleep(0.5)
+
 
 # Initialize server connection
 if (useServer):
@@ -116,6 +112,7 @@ if (useServer):
     print ("Connected to server")
     #time.sleep(0.5)
 
+
 # Initialize Arduino connection and perform handshake
 print("Connecting to Raspberry Pi")
 ser = serial.Serial(arduinoPort, baudrate=115200, timeout=3.0)
@@ -123,14 +120,15 @@ sys.stdout.write("\033[F") # Cursor up one line
 sys.stdout.write("\033[K") # Clear line
 print ("Raspberry Pi Connected")
 while (isHandshakeDone == False):
-        ser.write(handshake)
+        ser.write(handshake) # Initiate handshake on Arduino
         print("H sent, awaiting response")
         response = ser.read().decode()
         if response == ('A'):
             print("Response verified, handshake complete")
             isHandshakeDone = True
             ser.write(acknoledged)
-            ser.readline()
+            ser.readline() # Clear the screaming "AAAAAAAAAAAAAAAAA"
+            time.sleep(0.5)
             print("Starting in 3 seconds")
             time.sleep(0.5)
             sys.stdout.write("\033[F") # Cursor up one line
@@ -146,13 +144,14 @@ while (isHandshakeDone == False):
             sys.stdout.write("\033[F") # Cursor up one line
             sys.stdout.write("\033[K") # Clear line
             print ("Begin")
-            ser.write(acknoledged)
+            ser.write(acknoledged) # Intentionally increase message ID to #2 to test ID error checking in system test section
         else:
             ser.write(handshake)
             print(response)
             ser.write(handshake)
 
-# Calibration
+
+# Calibration (NOT IMPLEMENTED)
 if (skipCalibration == False):
     startTime = current_milli_time()
     while (calibrated == False):
@@ -165,12 +164,12 @@ if (skipCalibration == False):
         # 6. check if calibrateCandidate1 is close to calibrateCandidate2, if yes, take the average and save calibration data
         print("Calibration took (ms): ", (current_milli_time()-startTime))
 
-# Ignore early readings
+
+# Ignore early readings (System test)
 print("Begin System Test")
-startTime = current_milli_time()
-loopTime = current_milli_time()
+startTime = loopTime = current_milli_time()
 while (ignoreLoopCount < debugLoops):
-    if (current_milli_time() > (loopTime+0)):
+    if (current_milli_time() > (loopTime + 0)): # Variable to force interval between sample requests
         loopTime = readTime = current_milli_time()
         message = ser.readline() # Read message from Arduino
         readEndTime = current_milli_time()
@@ -195,7 +194,6 @@ while (ignoreLoopCount < debugLoops):
             else: # Checksums do not match
                 debugFailCount += 1
                 print('Checksums error!', "Message Checksum:", msgCheckSum, "Generated Checksum:", checkSum)
-                #print("Message:", message)
                 print(' ')
 
         elif (newAccID == oldAccID):
@@ -205,7 +203,6 @@ while (ignoreLoopCount < debugLoops):
         else:
             debugFailCount += 1
             print('ID error!', 'oldAccID:', oldAccID, 'newAccID:', newAccID)
-            #print("Message:", message)
             print(' ')
 
         ignoreLoopCount += 1
@@ -218,10 +215,11 @@ print("Average debug loop duration (ms): ", ((current_milli_time()-startTime)/de
 
 time.sleep(1)
 
+
 # Read (Main Loop)
 print(' ')
-print("SYSTEM LIVE")
-print(" ")
+print('SYSTEM LIVE')
+print(' ')
 startTime = current_milli_time()
 loopTime = current_milli_time()
 powerOldTime = current_milli_time()
@@ -236,8 +234,8 @@ while (loopCount < mainLoops):
 
         message = message.decode() # Convert to string to manipulate data
         newAccID = int(message.split(',', 1)[0]) # Extract message ID
-        volt = int(message.rsplit(',', 3)[1])
-        amp = int(message.rsplit(',', 2)[1])
+        volt = int(message.rsplit(',', 3)[1]) # Extract voltage reading
+        amp = int(message.rsplit(',', 2)[1]) # Extract current reading
         msgCheckSum = int((message.rsplit(',', 1)[1])[:-2]) # Extract message checksum
         message = message.rsplit(',', 1)[0] # Remove checksum from message
         byteMessage = array.array('b', message.encode()) # Convert back to byteMessage to generate hash
@@ -247,27 +245,28 @@ while (loopCount < mainLoops):
                 checkSum ^= int(byteMessage[hashcount])
                 hashcount += 1
 
-            if (checkSum == msgCheckSum): #Check if checksums matches
+            if (checkSum == msgCheckSum): # Check if checksums matches
+                
+                successCount += 1
+                
                 message = message.rsplit(',', 2)[0] # Remove volt and amp from message
                 message = message.split(',', 1)[1] # Remove ID from message
                 messagenp = np.fromstring(message[0:(len(message))], dtype=int, sep=",")
                 messagenp = messagenp.reshape(1,-1)
 
-                #Normalize data
+                # Normalize data
                 normalized_X = preprocessing.normalize(messagenp)
 
-                #Get Result
+                # Generate result from sample and store in resultBuffer array
                 result = le.inverse_transform(rf_model.predict(normalized_X))
                 resultBuffer[successCount%5] = result
 
-                #Power information
+                # Convert readings to appropriate units and calculate power and cumulative power
                 amp = (amp * 5 / 1023) / (10 / 10.1) / 10
                 volt = volt / 102.3
                 pwr = round(volt*amp, 4)
                 cumpower = cumpower + pwr*((current_milli_time()-powerOldTime)/3600)
                 powerOldTime = current_milli_time()
-
-                successCount += 1
 
             else: # Checksums do not match
                 checkSumFailCount += 1
@@ -290,19 +289,11 @@ while (loopCount < mainLoops):
         checkSum = 0
         hashcount = 0
 
-        # Show user number of loops
+        # Show user number of loops (For debug)
         #if (loopCount%10 == 0):
         #    print('Successes:', successCount, '| ID errors:', IDFailCount,'| Checksum errors:', checkSumFailCount)
-            
-        if (resetFlag == True):
-            resetFlagCount = resetFlagCount + 1
-            if (resetFlagCount == 10):
-                resetFlag = False
-                resetFlagCount = 0
-            
         
-        # When number of consecutive successful readings reaches 4
-        #Send and print data in readable format
+        # Generate bestAnswer and confidence level
         bestAnswer = str((mode(resultBuffer))[0][0][0])
         bestAnswerConfidence = mode(resultBuffer)[1][0]
         if (bestAnswer == 'standing'):
@@ -311,17 +302,22 @@ while (loopCount < mainLoops):
                 bestAnswer = 'logout'
                 bestAnswerConfidence = 3
                 logoutCount = 0
-            else:
-                logoutCount = 0
-                
+        else: # Reset logoutCount when no longer standing
+            logoutCount = 0
+        
+        # After system sends bestAnswer to the server, the system is prevented from sending any more for 10 ticks, allowing for user to have enough time to move on to the next move
+        if (resetFlag == True):
+            resetFlagCount = resetFlagCount + 1
+            if (resetFlagCount == 10):
+                resetFlag = False
+                resetFlagCount = 0
+        
+        # Send data in the required format to the server
         if (resetFlag == False):
             if (useServer):
                 if ((bestAnswer != 'standing') & (bestAnswerConfidence > 2)):
                     sendEncoded(bestAnswer, round(volt, 3), round(amp, 3), pwr, round(cumpower, 3))
                     resetFlag = True
             
-
+        # Print live information on system in terminal
         print('Latest Result', result, 'Best Answer:', bestAnswer, 'Confidence:', bestAnswerConfidence, 'Volt:', round(volt, 3), 'Amp:', round(amp, 3), 'Watt:', pwr, 'KWh:', round(cumpower, 3))
-
-            #loopTime = current_milli_time() # Reset loopTime
-

@@ -2,10 +2,6 @@
 """
 @author: Jun Hao
 """
-print('learning')
-#Set print command to print to file
-#import sys
-#sys.stdout = open("Output.txt", "w")
 
 #Print current time on computer
 from datetime import datetime
@@ -17,6 +13,7 @@ tfulls = time.time()
 
 # Config.ini
 reshapeBy = 50 # Set number of inputs per sample for Machine Learning
+#sys.stdout = open("OutputComb.txt", "w") # Set print command to print to file
 
 # Initialize random seed
 #import random
@@ -29,7 +26,7 @@ reshapeBy = 50 # Set number of inputs per sample for Machine Learning
 #randomSideStep = randint(2399, 2999)
 #randomJumping = randint(2999, 3599)
 
-#Sort data into columns -> For some reason can't extract class column using the better(next) method
+# Sort data into columns -> For some reason can't extract class column using the better(next) method
 import csv
 import numpy as np
 with open('processed_data.csv') as csvfile:
@@ -42,7 +39,7 @@ with open('processed_data.csv') as csvfile:
         for h, v in zip(headers, row):
             column[h].append(v)
 
-#Sort data into a whole array and extract necessary data
+# Sort data into a whole array and extract necessary data
 testdata = np.genfromtxt ('processed_data.csv', delimiter=",")
 print(testdata.shape)
 testdata = np.delete(testdata, (0), axis=0)
@@ -54,10 +51,10 @@ print(X.shape)
 
 
 
-#Data pre-processing
+# Data pre-processing
 from sklearn import preprocessing
 
-##Encode output variable
+# Encode output variable
 le = preprocessing.LabelEncoder()
 le.fit(['standing', 'wavehands', 'busdriver', 'frontback', 'sidestep', 'jumping', 'jumpingjack', 'turnclap', 'squatturnclap', 'windowcleaning', 'windowcleaner360', 'logout'])
 #print(list(le.classes_))
@@ -70,7 +67,8 @@ normalized_X = preprocessing.normalize(X)
 print(normalized_X.shape)
 
 
-#Evaluate model
+# Evaluate model
+print('Learning')
 #from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import KFold
@@ -79,7 +77,7 @@ from sklearn.metrics import confusion_matrix
 n_splits_val = 10
 kfold = KFold(n_splits=n_splits_val, shuffle=True)
 
-#KNN
+# KNN
 #print(' ')
 #print('Nearest Neighbors')
 #print(' ')
@@ -103,9 +101,9 @@ kfold = KFold(n_splits=n_splits_val, shuffle=True)
 #avg_accuracy_knn /= n_splits_val
 #tknne = time.time()
 
-#RF
+# Random Forests
 print(' ')
-print('Random Forest')
+print('Random Forests')
 print(' ')
 trfs = time.time()
 fold_index = 0
@@ -129,7 +127,7 @@ avg_accuracy_rf /= n_splits_val
 trfe = time.time()
 print(' ')
 
-#Results
+# Results
 print('Results:')
 print(' ')
 #print('Nearest Neighbors took %f seconds' %(tknne-tknns))
