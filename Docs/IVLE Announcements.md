@@ -1,7 +1,7 @@
 # IVLE Announcements
 
 ## IVLE: CG3002: CG3002: Procedure for Claims
-`by: Sangit Sasidhar, 16-Nov-2017 01:55 PM`
+`by: Sangit Sasidhar, 16-Nov-2017 01:55 PM`  
 Dear All,
 
 You need to submit the claims form (RFP) for each group alongwith the list of expenses excel sheet and the receipts.  Please note the following points:  
@@ -15,7 +15,7 @@ Cheers
 CG3002 Teaching Team  
 
 ## Final Test Schedule
-`by: Peh Li Shiuan, 14-Nov-2017 10:25 AM`
+`by: Peh Li Shiuan, 14-Nov-2017 10:25 AM`  
 Hi all,
 
  This is the time and order the final test will be carried out this Thursday/Friday. I generated it randomly in python :P. All members of the group must be present.
