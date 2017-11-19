@@ -1,9 +1,24 @@
-# [CG3002 Dance Dance Project](1%20-%20Docs/Handouts/CG3002-dance.pdf "CG3002 Embedded System Design Project")
+# [CG3002 Dance Dance Project](Docs/Handouts/CG3002-dance.pdf "CG3002 Embedded System Design Project")
 
-## Set-up
+## Main code
+
+### Arduino Mega
+[Arduino Code](Arduino_Code.ino "Arduino_Code.ino")  
+
+### Raspberry Pi 3
+
+[Compiling raw data collected](Pi_2_Compile_Raw_Data.py "Pi_2_Compile_Raw_Data.py")  
+[Learn from raw data](Pi_3_Learn_From_Processed_Data.py "Pi_3_Learn_From_Processed_Data.py")  
+[Main Code for Live Recognition](Pi_4_Live_Recognition.py "Pi_4_Live_Recognition.py")  
+
+### Server
+
+[Final evaluation server](final_eval_server.py "final_eval_server.py")  
+
+## Setting up
 
 ### Windows
-1. [GitKraken 3.2.1](https://www.gitkraken.com/)
+1. [GitKraken 3.2.2](https://www.gitkraken.com/)
 2. [Anaconda 5.0.1](https://www.anaconda.com/download/)
     - Update: `conda update --all`
     - `conda install -c anaconda pyserial`
