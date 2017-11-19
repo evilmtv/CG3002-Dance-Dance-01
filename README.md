@@ -3,17 +3,18 @@
 ## Main code
 
 ### Arduino Mega
-[Arduino Code](Arduino_Code.ino "Arduino_Code.ino")  
+1. [Arduino Code](Arduino_Code.ino "Arduino_Code.ino")  
 
 ### Raspberry Pi 3
 
-[Compiling raw data collected](Pi_2_Compile_Raw_Data.py "Pi_2_Compile_Raw_Data.py")  
-[Learn from raw data](Pi_3_Learn_From_Processed_Data.py "Pi_3_Learn_From_Processed_Data.py")  
-[Main Code for Live Recognition](Pi_4_Live_Recognition.py "Pi_4_Live_Recognition.py")  
+1. [Recording raw data](Pi_1_Record_Raw_Data.py "Pi_1_Record_Raw_Data.py")  
+2. [Compiling raw data collected - Modular](Pi_2_Compile_Raw_Data.py "Pi_2_Compile_Raw_Data.py")  
+3. [Learn from raw data](Pi_3_Learn_From_Processed_Data.py "Pi_3_Learn_From_Processed_Data.py")  
+4. [Main Code for Live Recognition](Pi_4_Live_Recognition.py "Pi_4_Live_Recognition.py")  
 
 ### Server
 
-[Final evaluation server](final_eval_server.py "final_eval_server.py")  
+1. [Final evaluation server](final_eval_server.py "final_eval_server.py")  
 
 ## Setting up
 
